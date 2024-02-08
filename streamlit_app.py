@@ -1,6 +1,7 @@
 import streamlit as st
 import folium
 from folium.plugins import Draw
+from streamlit_folium import folium_map
 
 # Create a simple map
 m = folium.Map(location=[37.7749, -122.4194], zoom_start=12)
