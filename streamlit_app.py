@@ -21,13 +21,21 @@ with left:
 
     # Add draw control with polygon option only
     draw = Draw(
-        draw_options={"polyline": False, "rectangle": False, "circle": False, "marker": False}
+        draw_options={
+            "polyline": False,
+            "rectangle": False,
+            "circle": False,
+            "marker": False,
+            "circlemarker": False,
+        }
     )
 
-    m = folium.Map(location=[39.949610, -75.150282], zoom_start=16, tiles="cartodb-dark-matter")
+    m = folium.Map(
+        location=[39.949610, -75.150282], zoom_start=16, tiles="cartodb-dark-matter"
+    )
     m.add_children(draw)
     # call to render Folium map in Streamlit
-    st_data = st_folium(m, width='100%')
+    st_data = st_folium(m, width="100%")
     # # User input for number of points
     # num_points = st.number_input("Number of points to conjure:", min_value=1)
 
@@ -35,7 +43,7 @@ with left:
     # if st.button("Conjure Points"):
     #     # Get drawn polygon data
     #     drawn_data = st.session_state.get("drawn_data")  # Access from session state
-        
+
     #     # Check if a polygon is drawn
     #     if drawn_data and "Polygon" in drawn_data:
     #         polygon = drawn_data["Polygon"][0]
@@ -54,15 +62,14 @@ with left:
 
 with right:
 
-    if st_data['all_drawings'] and len(st_data['all_drawings'])>0:
-        for drawing in st_data['all_drawings']:
+    if st_data["all_drawings"] and len(st_data["all_drawings"]) > 0:
+        for drawing in st_data["all_drawings"]:
             msg = ""
-            if drawing['geometry']['type']=="Polygon":
+            if drawing["geometry"]["type"] == "Polygon":
                 msg = "I see your polygon"
-                for vertices in drawing['geometry']['coordinates']:
+                for vertices in drawing["geometry"]["coordinates"]:
                     msg += f" with {len(vertices)-1} vertices"
             st.write(msg)
     "---"
     with st.expander("st_data"):
         st_data
-
