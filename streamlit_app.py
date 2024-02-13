@@ -34,8 +34,8 @@ with left:
         location=[39.949610, -75.150282], zoom_start=16, tiles="cartodb-dark-matter"
     )
     m.add_children(draw)
-    # call to render Folium map in Streamlit
     st_data = st_folium(m, width="100%")
+    
     # # User input for number of points
     # num_points = st.number_input("Number of points to conjure:", min_value=1)
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>I can see what you're drawing</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <div id="map" class="map"></div>
+        <div class="sidebar">
+            <div id="messages"></div>
+            <div id="drawingData" class="expander">
+                <button onclick="toggleExpander()">st_data</button>
+                <pre id="stDataContent"></pre>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet-draw.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
