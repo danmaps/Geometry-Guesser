@@ -26,6 +26,8 @@ let drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, function (e) {
+    let content = document.getElementById('DataContent');
+    content.textContent = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
     let type = e.layerType,
         layer = e.layer;
 
@@ -40,14 +42,6 @@ function processPolygon(layer) {
     let vertices = layer.getLatLngs()[0];
     let message = `I see your polygon with ${vertices.length} vertices`;
     document.getElementById('messages').innerHTML += `<p>${message}</p>`;
-}
 
-function toggleExpander() {
-    let content = document.getElementById('stDataContent');
-    if (content.style.display === "block") {
-        content.style.display = "none";
-    } else {
-        content.style.display = "block";
-        content.textContent = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
-    }
+
 }

@@ -1,33 +1,30 @@
 {
-  "name": "Python 3",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
+  "name": "Web Development",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-14",
   "customizations": {
     "codespaces": {
       "openFiles": [
         "README.md",
-        "streamlit_app.py"
+        "index.html"
       ]
     },
     "vscode": {
       "settings": {},
       "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance"
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ritwickdey.LiveServer"
       ]
     }
   },
-  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requirements.txt; pip3 install --user streamlit; echo '✅ Packages installed and Requirements met'",
-  "postAttachCommand": {
-    "server": "streamlit run streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false"
-  },
+  "updateContentCommand": "if [ -f package.json ]; then npm install; fi",
+  "forwardPorts": [
+    3000
+  ],
   "portsAttributes": {
-    "8501": {
-      "label": "Application",
+    "3000": {
+      "label": "Web App",
       "onAutoForward": "openPreview"
     }
-  },
-  "forwardPorts": [
-    8501
-  ]
+  }
 }

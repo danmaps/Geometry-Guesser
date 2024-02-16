@@ -26,6 +26,10 @@ body, html {
     margin-top: 20px;
 }
 
-.expander pre {
+/* .expander pre {
     display: none;
+} */
+
+#DataContent {
+    display:block;
 }
