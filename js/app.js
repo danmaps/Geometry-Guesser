@@ -126,7 +126,17 @@ function addRandomPointsToPolygons() {
     });
 }
 
-document.getElementById('fillPolygons').addEventListener('click', addRandomPointsToPolygons);
+// document.getElementById('fillPolygons').addEventListener('click', addRandomPointsToSpecificPolygon);
+document.getElementById('fillPolygons').addEventListener('click', () => {
+    // Retrieve the selected polygon ID from the dropdown
+    var polygonId = parseInt(document.getElementById('polygonSelector').value);
+
+    // Retrieve the number of points to add from the input
+    var pointsCount = parseInt(document.getElementById('pointsCount').value, 10);
+
+    addRandomPointsToSpecificPolygon(polygonId, pointsCount);
+});
+
 
 
 document.querySelectorAll('.tool').forEach(item => {
