@@ -33,6 +33,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
 
     drawnItems.addLayer(layer);
     updateDataContent();
+    updatePolygonSelector();
 
     if (type === 'polygon') {
         let vertices = layer.getLatLngs()[0];
@@ -72,15 +73,13 @@ map.on('draw:deleted', function (e) {
     });
     // Make sure to update the DataContent as well after deletion
     updateDataContent();
-});
-// Event listener for when features are edited
-map.on('draw:edited', function () {
-    updateDataContent();
+    updatePolygonSelector();
 });
 
 // Event listener for when features are deleted
 map.on('draw:deleted', function () {
     updateDataContent();
+    updatePolygonSelector();
 });
 
 // Event listener for when features are edited
@@ -97,7 +96,8 @@ map.on('draw:edited', function (e) {
     });
     
     // Optional: Update any other UI components or data representations as necessary
-    updateDataContent();    
+    updateDataContent();
+    updatePolygonSelector();
 });
 
 function addRandomPointsToPolygons() {
@@ -137,6 +137,18 @@ document.getElementById('fillPolygons').addEventListener('click', () => {
     addRandomPointsToSpecificPolygon(polygonId, pointsCount);
 });
 
+function updatePolygonSelector() {
+    let selector = document.getElementById('polygonSelector');
+    selector.innerHTML = ''; // Clear existing options
+    drawnItems.eachLayer(function(layer) {
+        if (layer instanceof L.Polygon) {
+            let option = document.createElement('option');
+            option.value = layer._leaflet_id; // Use Leaflet's internal ID or your custom ID
+            option.textContent = "Polygon " + layer._leaflet_id; // Customize option text as needed
+            selector.appendChild(option);
+        }
+    });
+}
 
 
 document.querySelectorAll('.tool').forEach(item => {
