@@ -11,13 +11,7 @@
         <div id="map" class="map"></div>
         <div id="sidebar">
             <div id="toolSelection">
-                <div class="tool" data-tool="Random Points">
-                    <span>✨</span> Random Points
-                </div>
-                <div class="tool" data-tool="Buffer">
-                    <span>✨</span> Buffer
-                </div>
-                <!-- New tools go here -->
+
                 <div id="messages"></div>
             </div>
             <div id="toolDetails" class="hidden">
@@ -26,7 +20,6 @@
                 <div id="toolContent">
                     <!-- Content for the selected tool will be loaded here -->
                 </div>
-                <button id="fillPolygons">Run</button>
             </div>
             <div id="drawingData" class="expander">
                 <div id="messages"></div>
@@ -42,12 +35,12 @@
 
     <!-- Local JavaScript files -->
     <!-- Models -->
-    <script src="js/models/Tool.js"></script>
-    <script src="js/models/Parameter.js"></script>
+    <script type="module" src="js/models/Tool.js"></script>
+    <script type="module" src="js/models/Parameter.js"></script>
 
     <!-- Tools -->
-    <script src="js/tools/RandomPointsTool.js"></script>
-    <script src="js/tools/BufferTool.js"></script>
+    <script type="module" src="js/tools/RandomPointsTool.js"></script>
+    <script type="module" src="js/tools/BufferTool.js"></script>
 
     <!-- Utilities -->
     <script src="js/utils/helpers.js"></script>

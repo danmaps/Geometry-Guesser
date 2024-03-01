@@ -1,28 +1,49 @@
-class Tool {
+export class Tool {
     constructor(name, parameters = []) {
         this.name = name;
-        this.parameters = parameters; // An array of Parameter instances
+        this.parameters = parameters;
     }
 
-    // Method to add a parameter to the tool
     addParameter(parameter) {
         if (parameter instanceof Parameter) {
             this.parameters.push(parameter);
         }
     }
 
-    // Method to render the tool's UI, including all parameters
     renderUI() {
-        let uiHTML = `<h2>${this.name}</h2>`;
-        this.parameters.forEach(param => {
-            uiHTML += param.render();
-        });
-        return uiHTML;
-    }
+        const toolSelection = document.getElementById('toolSelection');
+        const toolDetails = document.getElementById('toolDetails');
+        const toolContent = document.getElementById('toolContent');
 
-    // Method to execute the tool's functionality
-    // Placeholder for now, could be overridden in subclasses or implemented here
-    execute() {
-        // Implementation of what happens when the tool is executed
-    }
+        // Hide the tool selection and show the tool details
+        toolSelection.style.display = 'none';
+        toolDetails.classList.remove('hidden');
+        toolContent.innerHTML = ''; // Clear existing content
+
+        // Show the tool name
+        const nameDiv = document.createElement('h3');
+        nameDiv.textContent = this.name;
+        toolContent.appendChild(nameDiv);
+
+        // Dynamically create and append elements for each parameter
+        this.parameters.forEach(param => {
+            const paramDiv = document.createElement('div');
+            paramDiv.textContent = `${param.name}:`;
+            const input = document.createElement('input');
+            input.id = `param-${param.name}`; // Unique ID based on parameter name
+            input.setAttribute('type', param.type === 'number' ? 'number' : 'text'); // Adjust type accordingly
+            paramDiv.appendChild(input);
+            toolContent.appendChild(paramDiv);
+        });
+
+        // Create the Execute button
+        const executeButton = document.createElement('button');
+        executeButton.textContent = 'Run';
+        toolContent.appendChild(executeButton);
+    
+        // Attach an event listener to the Execute button
+        executeButton.addEventListener('click', () => this.execute());
+    }    
+
+
 }

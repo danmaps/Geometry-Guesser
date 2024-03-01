@@ -1,9 +1,9 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
 
-export class BufferTool extends Tool {
+export class ExtractTool extends Tool {
     constructor() {
-        super("Buffer", [
+        super("Extract", [
             new Parameter("Polygon","dropdown",""),
             new Parameter("Distance", "number"),
             new Parameter("Units","dropdown","meters",["meters","feet","miles"])    

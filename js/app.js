@@ -33,11 +33,12 @@ map.on(L.Draw.Event.CREATED, function (e) {
 
     drawnItems.addLayer(layer);
     updateDataContent();
-    updatePolygonSelector();
+    // updatePolygonSelector();
 
     if (type === 'polygon') {
         let vertices = layer.getLatLngs()[0];
         let message = `I see polygon ${layer._leaflet_id} with ${vertices.length} vertices`;
+        console.log(message)
         addMessageForLayer(layer,message);
     }
 });
@@ -73,13 +74,13 @@ map.on('draw:deleted', function (e) {
     });
     // Make sure to update the DataContent as well after deletion
     updateDataContent();
-    updatePolygonSelector();
+    // updatePolygonSelector();
 });
 
 // Event listener for when features are deleted
 map.on('draw:deleted', function () {
     updateDataContent();
-    updatePolygonSelector();
+    // updatePolygonSelector();
 });
 
 // Event listener for when features are edited
@@ -97,65 +98,7 @@ map.on('draw:edited', function (e) {
     
     // Optional: Update any other UI components or data representations as necessary
     updateDataContent();
-    updatePolygonSelector();
-});
-
-function addRandomPointsToPolygons() {
-    drawnItems.eachLayer(function(layer) {
-        if (layer instanceof L.Polygon) {
-            // Convert the Leaflet polygon to a GeoJSON polygon
-            let polygon = layer.toGeoJSON();
-            // Define how many points you want to add
-            let pointsCount = 5; // Example: Adjust as needed
-
-            for (let i = 0; i < pointsCount; i++) {
-                let pointAdded = false;
-                while (!pointAdded) {
-                    // Generate a single random point within the bounding box
-                    let randomPoint = turf.randomPoint(1, {bbox: turf.bbox(polygon)});
-                    // Check if the random point is within the polygon
-                    if (turf.booleanPointInPolygon(randomPoint.features[0], polygon)) {
-                        let pointCoords = randomPoint.features[0].geometry.coordinates;
-                        // Add the point to the map
-                        L.marker([pointCoords[1], pointCoords[0]]).addTo(map);
-                        pointAdded = true;
-                    }
-                }
-            }
-        }
-    });
-}
-
-// document.getElementById('fillPolygons').addEventListener('click', addRandomPointsToSpecificPolygon);
-document.getElementById('fillPolygons').addEventListener('click', () => {
-    // Retrieve the selected polygon ID from the dropdown
-    var polygonId = parseInt(document.getElementById('polygonSelector').value);
-
-    // Retrieve the number of points to add from the input
-    var pointsCount = parseInt(document.getElementById('pointsCount').value, 10);
-
-    addRandomPointsToSpecificPolygon(polygonId, pointsCount);
-});
-
-function updatePolygonSelector() {
-    let selector = document.getElementById('polygonSelector');
-    selector.innerHTML = ''; // Clear existing options
-    drawnItems.eachLayer(function(layer) {
-        if (layer instanceof L.Polygon) {
-            let option = document.createElement('option');
-            option.value = layer._leaflet_id; // Use Leaflet's internal ID or your custom ID
-            option.textContent = "Polygon " + layer._leaflet_id; // Customize option text as needed
-            selector.appendChild(option);
-        }
-    });
-}
-
-
-document.querySelectorAll('.tool').forEach(item => {
-    item.addEventListener('click', function() {
-        let toolName = this.getAttribute('data-tool');
-        showToolDetails(toolName);
-    });
+    // updatePolygonSelector();
 });
 
 document.getElementById('backButton').addEventListener('click', function() {
@@ -163,24 +106,34 @@ document.getElementById('backButton').addEventListener('click', function() {
     document.getElementById('toolDetails').classList.add('hidden');
 });
 
-function showToolDetails(toolName) {
-    let toolContent = document.getElementById('toolContent');
-    toolContent.innerHTML = ''; // Clear existing content
+document.addEventListener('DOMContentLoaded', () => {
+    const toolNames = ['RandomPointsTool', 'BufferTool', 'ExtractTool']; // keep this up to date -_-
+    const loadedTools = []; // To store instantiated tools
 
-    if (toolName === "Random Points") {
-        let dropdown = '<select id="polygonSelector">';
-        drawnItems.eachLayer(function(layer) {
-            if (layer instanceof L.Polygon) {
-                dropdown += `<option value="${layer._leaflet_id}">Polygon ${layer._leaflet_id}</option>`;
-            }
-        });
-        dropdown += '</select>';
-        let slider = '<input type="range" id="pointsCount" min="1" max="100" value="10">';
-        toolContent.innerHTML = `<h2>${toolName}</h2>${dropdown}<br>${slider}`;
-    }
-    // Similar setup for Buffer tool...
+    Promise.all(toolNames.map(name => 
+        import(`./tools/${name}.js`).then(module => {
+            // Access the class using the named export
+            const ToolClass = module[name]; // Adjusted for named export
+            const toolInstance = new ToolClass();
+            loadedTools.push(toolInstance);
+        })
+    )).then(() => {
+        // Once all tools are loaded, proceed with further initialization
+        console.log(loadedTools);
+        renderToolList(loadedTools);
+        
+    });
+});
 
-    document.getElementById('toolSelection').style.display = 'none';
-    document.getElementById('toolDetails').classList.remove('hidden');
+function renderToolList(tools) {
+    const toolContainer = document.getElementById('toolSelection');
+    tools.forEach(tool => {
+        const toolDiv = document.createElement('div');
+        toolDiv.className = 'tool';
+        toolDiv.textContent = tool.name;
+        toolDiv.addEventListener('click', () => tool.renderUI());
+        document.getElementById('toolSelection').appendChild(toolDiv);
+    });
+       
 }
 
