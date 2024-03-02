@@ -4,7 +4,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 18,
 }).addTo(map);
 
-let drawnItems = new L.FeatureGroup();
+export const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
 let drawControl = new L.Control.Draw({

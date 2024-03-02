@@ -14,36 +14,48 @@ export class Tool {
         const toolSelection = document.getElementById('toolSelection');
         const toolDetails = document.getElementById('toolDetails');
         const toolContent = document.getElementById('toolContent');
-
-        // Hide the tool selection and show the tool details
+    
         toolSelection.style.display = 'none';
         toolDetails.classList.remove('hidden');
         toolContent.innerHTML = ''; // Clear existing content
-
-        // Show the tool name
-        const nameDiv = document.createElement('h3');
-        nameDiv.textContent = this.name;
-        toolContent.appendChild(nameDiv);
-
-        // Dynamically create and append elements for each parameter
-        this.parameters.forEach(param => {
-            const paramDiv = document.createElement('div');
-            paramDiv.textContent = `${param.name}:`;
-            const input = document.createElement('input');
-            input.id = `param-${param.name}`; // Unique ID based on parameter name
-            input.setAttribute('type', param.type === 'number' ? 'number' : 'text'); // Adjust type accordingly
-            paramDiv.appendChild(input);
-            toolContent.appendChild(paramDiv);
-        });
-
-        // Create the Execute button
-        const executeButton = document.createElement('button');
-        executeButton.textContent = 'Run';
-        toolContent.appendChild(executeButton);
     
-        // Attach an event listener to the Execute button
+        this.parameters.forEach(param => {
+            const paramLabel = document.createElement('label');
+            paramLabel.textContent = `${param.name}: `;
+            paramLabel.htmlFor = `param-${param.name}`;
+    
+            if (param.type === "dropdown") {
+                const paramSelect = document.createElement('select');
+                paramSelect.id = `param-${param.name}`;
+    
+                // Assuming param.options is an array of { value, text } objects for dropdown options
+                param.options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    paramSelect.appendChild(optionElement);
+                });
+    
+                toolContent.appendChild(paramLabel);
+                toolContent.appendChild(paramSelect);
+            } else if (param.type === "number") {
+                const paramInput = document.createElement('input');
+                paramInput.type = "number";
+                paramInput.id = `param-${param.name}`;
+                paramInput.value = param.defaultValue;
+    
+                toolContent.appendChild(paramLabel);
+                toolContent.appendChild(paramInput);
+            }
+            // Extend this conditional block to handle other parameter types as needed
+
+            toolContent.appendChild(document.createElement('br')) // add new line between parameters
+        });
+    
+        // Create and append the Execute button after adding all parameters
+        const executeButton = document.createElement('button');
+        executeButton.textContent = 'Execute';
         executeButton.addEventListener('click', () => this.execute());
-    }    
-
-
+        toolContent.appendChild(executeButton);
+    }
 }

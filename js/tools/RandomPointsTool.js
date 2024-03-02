@@ -1,16 +1,26 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
+import { drawnItems } from '../app.js'; // Adjust the path as necessary
 
 export class RandomPointsTool extends Tool {
     constructor() {
+        let options = [];
+        drawnItems.eachLayer(function(layer) {
+            if (layer instanceof L.Polygon) {
+                options.push({ value: layer._leaflet_id.toString(), text: "Polygon " + layer._leaflet_id });
+            }
+        });
+        console.log('options:', options);
+    
         super("Random Points", [
-            new Parameter("Polygon", "dropdown", ""),
+            new Parameter("Polygon", "dropdown", "", options),
             new Parameter("Points Count", "number", 5)
         ]);
     }
+    
 
     execute() {
-        // Assuming 'Polygon' parameter is a dropdown with IDs of polygons and 'Points Count' is a number input
+        // 'Polygon' parameter is a dropdown with IDs of polygons and 'Points Count' is a number input
         const polygonIdInput = document.getElementById('param-Polygon'); // Adjust if using a different identifier
         const pointsCountInput = document.getElementById('param-Points Count');
 
@@ -22,7 +32,6 @@ export class RandomPointsTool extends Tool {
         drawnItems.eachLayer(function(layer) {
             // Check if the current layer matches the specified polygon ID
             if (layer instanceof L.Polygon && layer._leaflet_id === polygonId) {
-                console.log(layer)
                 let polygon = layer.toGeoJSON();
     
                 for (let i = 0; i < pointsCount; i++) {
