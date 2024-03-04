@@ -12,13 +12,13 @@ body, html {
 }
 
 .map {
-    width: calc(100% - 250px); /* Adjust the width so it doesn't underlay the sidebar */
+    width: calc(100% - 500px); /* Adjust the width so it doesn't underlay the sidebar */
     height: 100%;
     float: left; /* This helps if the sidebar is positioned absolutely/fixed */
 }
 
 #sidebar {
-    width: 250px;
+    width: 500px;
     position: fixed;
     right: 0; /* Changed from left to right */
     top: 0;

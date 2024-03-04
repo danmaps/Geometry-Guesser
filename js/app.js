@@ -1,5 +1,5 @@
 // Initialize the map
-let map = L.map('map').setView([34, -117], 7);
+export const map = L.map('map').setView([34, -117], 7);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 18,
 }).addTo(map);
@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Access the class using the named export
             const ToolClass = module[name]; // Adjusted for named export
             const toolInstance = new ToolClass();
+            // toolInstance.setMap(map)
             loadedTools.push(toolInstance);
         })
     )).then(() => {

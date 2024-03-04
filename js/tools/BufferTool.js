@@ -12,3 +12,6 @@ export class BufferTool extends Tool {
 
 }
 
+// https://stackoverflow.com/a/65320730
+// https://jsfiddle.net/rp1320mf/
+// https://turfjs.org/docs/#buffer

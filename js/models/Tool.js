@@ -1,7 +1,9 @@
 export class Tool {
-    constructor(name, parameters = []) {
+    constructor(name, parameters = [], description, map) {
         this.name = name;
         this.parameters = parameters;
+        this.description = description;
+        this.map = map
     }
 
     addParameter(parameter) {
@@ -28,13 +30,13 @@ export class Tool {
                 const paramSelect = document.createElement('select');
                 paramSelect.id = `param-${param.name}`;
     
-                // Assuming param.options is an array of { value, text } objects for dropdown options
-                param.options.forEach(option => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = option.value;
-                    optionElement.textContent = option.text;
-                    paramSelect.appendChild(optionElement);
-                });
+                // // Assuming param.options is an array of { value, text } objects for dropdown options
+                // param.options.forEach(option => {
+                //     const optionElement = document.createElement('option');
+                //     optionElement.value = option.value;
+                //     optionElement.textContent = option.text;
+                //     paramSelect.appendChild(optionElement);
+                // });
     
                 toolContent.appendChild(paramLabel);
                 toolContent.appendChild(paramSelect);
