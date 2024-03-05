@@ -33,14 +33,11 @@ map.on(L.Draw.Event.CREATED, function (e) {
 
     drawnItems.addLayer(layer);
     updateDataContent();
-    // updatePolygonSelector();
 
-    if (type === 'polygon') {
-        let vertices = layer.getLatLngs()[0];
-        let message = `I see polygon ${layer._leaflet_id} with ${vertices.length} vertices`;
-        console.log(message)
-        addMessageForLayer(layer,message);
-    }
+    let vertices = layer.getLatLngs()[0];
+    let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
+    console.log(message)
+    addMessageForLayer(layer,message);
 });
 
 let layerMessageMap = new Map();
@@ -77,23 +74,14 @@ map.on('draw:deleted', function (e) {
     // updatePolygonSelector();
 });
 
-// Event listener for when features are deleted
-map.on('draw:deleted', function () {
-    updateDataContent();
-    // updatePolygonSelector();
-});
-
 // Event listener for when features are edited
 map.on('draw:edited', function (e) {
     var layers = e.layers;
     layers.eachLayer(function (layer) {
-        // Check if the layer is a polygon
-        if (layer instanceof L.Polygon) {
-          removeMessageForLayer(layer)
-          let vertices = layer.getLatLngs()[0];
-          let message = `I see your polygon with ${vertices.length} vertices`;
-          addMessageForLayer(layer,message);
-        }
+        removeMessageForLayer(layer)
+        let vertices = layer.getLatLngs()[0];
+        let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
+        addMessageForLayer(layer,message);
     });
     
     // Optional: Update any other UI components or data representations as necessary

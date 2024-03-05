@@ -9,7 +9,7 @@ import { Parameter } from '../models/Parameter.js';
 import { drawnItems, map } from '../app.js'; // Adjust the path as necessary
 
 /**
- * Represents a tool for adding random points within selected polygon.
+ * Represents a tool for adding adding a buffer to the selected layer.
  * @extends Tool
  */
 export class BufferTool extends Tool {
@@ -58,7 +58,7 @@ export class BufferTool extends Tool {
         // Add the buffered area to the map - this requires converting the Turf GeoJSON back to a Leaflet layer
         const bufferedLayer = L.geoJSON(buffered).addTo(map);
     
-        // Optionally, you might want to fit the map view to the buffered area
+        // fit the map view to the buffered area
         // map.fitBounds(bufferedLayer.getBounds());
     }
     
@@ -72,14 +72,12 @@ export class BufferTool extends Tool {
         if (polygonIdInput) {
             polygonIdInput.innerHTML = ''; // Clear existing options
 
-            // Populate dropdown with current polygons
+            // Populate dropdown with current map data
             drawnItems.eachLayer(function(layer) {
-                if (layer instanceof L.Polygon) {
-                    const option = document.createElement('option');
-                    option.value = layer._leaflet_id.toString();
-                    option.text = "Polygon " + layer._leaflet_id;
-                    polygonIdInput.appendChild(option);
-                }
+                const option = document.createElement('option');
+                option.value = layer._leaflet_id.toString();
+                option.text = layer._leaflet_id;
+                polygonIdInput.appendChild(option);
             });
         }
 
