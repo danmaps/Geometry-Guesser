@@ -13,7 +13,7 @@ export class RandomPointsTool extends Tool {
     constructor() {    
         super("Random Points", [
             new Parameter("Polygon",  "Polygon to add random points within.", "dropdown", ""),
-            new Parameter("Points Count", "Number of random points to generate.", "number", 100)
+            new Parameter("Points Count", "Number of random points to generate.", "int", 100)
         ]);
 
         this.description = 'Adds random points within selected polygon';
