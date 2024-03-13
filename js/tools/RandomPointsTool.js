@@ -55,6 +55,20 @@ export class RandomPointsTool extends Tool {
             });
         } else {
             console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
+            console.log(map.getBounds())
+            var currentBounds = map.getBounds();
+            var southwest = [currentBounds._southWest.lat, currentBounds._southWest.lng];
+            var southeast = [currentBounds._southWest.lat, currentBounds._northEast.lng];
+            var northeast = [currentBounds._northEast.lat, currentBounds._northEast.lng];
+            var northwest = [currentBounds._northEast.lat, currentBounds._southWest.lng];
+            var visible_extent = turf.polygon([[southwest, southeast, northeast, northwest, southwest]]);
+            console.log(visible_extent)
+            let randomPoints = turf.randomPoint(pointsCount, {bbox: visible_extent});
+            // Add markers to the map
+            randomPoints.features.forEach(function (point) {
+                var coords = point.geometry.coordinates;
+                L.marker(coords.reverse()).addTo(map);
+            });
         }
     }
 
