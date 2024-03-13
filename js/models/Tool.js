@@ -31,6 +31,11 @@ export class Tool {
                 paramInput.id = `param-${param.name}`;
                 paramInput.value = param.defaultValue;
                 paramInput.step = param.type === "int" ? "1" : "any";
+            } else if (param.type === "boolean") {
+                paramInput = document.createElement('checkbox');
+                paramInput.type = "boolean";
+                paramInput.id = `param-${param.name}`;
+                paramInput.value = param.defaultValue;
             }
             
             // Common setup for all paramInput elements, including event listener for Enter key

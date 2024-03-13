@@ -12,8 +12,9 @@ export class RandomPointsTool extends Tool {
      */
     constructor() {    
         super("Random Points", [
-            new Parameter("Polygon",  "Polygon to add random points within.", "dropdown", ""),
-            new Parameter("Points Count", "Number of random points to generate.", "int", 100)
+            new Parameter("Points Count", "Number of random points to generate.", "int", 100),
+            new Parameter("Inside Polygon",  "Generate points inside polygon", "boolean", false),
+            new Parameter("Polygon",  "Polygon to add random points within.", "dropdown", "")
         ]);
 
         this.description = 'Adds random points within selected polygon';
@@ -23,32 +24,38 @@ export class RandomPointsTool extends Tool {
      * Executes the RandomPointsTool logic, adding specified number of random points within a selected polygon.
      */
     execute() {
-        const polygonIdInput = document.getElementById('param-Polygon');
         const pointsCountInput = document.getElementById('param-Points Count');
-
-        const polygonId = polygonIdInput ? parseInt(polygonIdInput.value, 10) : null;
+        const insidePolygonInput = document.getElementById('param-Inside Polygon');
+        const polygonIdInput = document.getElementById('param-Polygon');
+        
         const pointsCount = pointsCountInput ? parseInt(pointsCountInput.value, 10) : 0;
-
-        console.log(`Executing RandomPointsTool with Polygon ID: ${polygonId} and Points Count: ${pointsCount}`);
-        drawnItems.eachLayer(function(layer) {
-            // Check if the current layer matches the specified polygon ID
-            if (layer instanceof L.Polygon && layer._leaflet_id === polygonId) {
-                let polygon = layer.toGeoJSON();
-    
-                for (let i = 0; i < pointsCount; i++) {
-                    let pointAdded = false;
-                    while (!pointAdded) {
-                        let randomPoint = turf.randomPoint(1, {bbox: turf.bbox(polygon)}); // https://turfjs.org/docs/#randomPoint
-                        //todo: consider upgrade to turf.pointsWithinPolygon(points, searchWithin);
-                        if (turf.booleanPointInPolygon(randomPoint.features[0], polygon)) {
-                            let pointCoords = randomPoint.features[0].geometry.coordinates;
-                            L.marker([pointCoords[1], pointCoords[0]]).addTo(map);
-                            pointAdded = true;
+        const insidePolygon = insidePolygonInput.checked ? true : false;
+        const polygonId = polygonIdInput ? parseInt(polygonIdInput.value, 10) : null;
+        
+        if (insidePolygon){
+            console.log(`Executing RandomPointsTool with Polygon ID: ${polygonId} and Points Count: ${pointsCount}`);
+            drawnItems.eachLayer(function(layer) {
+                // Check if the current layer matches the specified polygon ID
+                if (layer instanceof L.Polygon && layer._leaflet_id === polygonId) {
+                    let polygon = layer.toGeoJSON();
+        
+                    for (let i = 0; i < pointsCount; i++) {
+                        let pointAdded = false;
+                        while (!pointAdded) {
+                            let randomPoint = turf.randomPoint(1, {bbox: turf.bbox(polygon)}); // https://turfjs.org/docs/#randomPoint
+                            //todo: consider upgrade to turf.pointsWithinPolygon(points, searchWithin);
+                            if (turf.booleanPointInPolygon(randomPoint.features[0], polygon)) {
+                                let pointCoords = randomPoint.features[0].geometry.coordinates;
+                                L.marker([pointCoords[1], pointCoords[0]]).addTo(map);
+                                pointAdded = true;
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
+        }
     }
 
     // Dynamically populate dropdown when the tool is selected
