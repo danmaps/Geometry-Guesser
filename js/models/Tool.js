@@ -32,8 +32,8 @@ export class Tool {
                 paramInput.value = param.defaultValue;
                 paramInput.step = param.type === "int" ? "1" : "any";
             } else if (param.type === "boolean") {
-                paramInput = document.createElement('checkbox');
-                paramInput.type = "boolean";
+                paramInput = document.createElement('input');
+                paramInput.type = "checkbox";
                 paramInput.id = `param-${param.name}`;
                 paramInput.value = param.defaultValue;
             }
