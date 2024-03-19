@@ -1,21 +1,12 @@
-// Function to initialize and render tools
-function initializeAndRenderTools(toolConfigs) {
-    const toolContainer = document.getElementById('toolSelection');
-    toolConfigs.forEach(config => {
-        const tool = new Tool(config.name, config.parameters);
-        tool.renderUI(toolContainer);
-    });
-}
 
-// function updatePolygonSelector() {
-//     let selector = document.getElementById('polygonSelector');
-//     selector.innerHTML = ''; // Clear existing options
-//     drawnItems.eachLayer(function(layer) {
-//         if (layer instanceof L.Polygon) {
-//             let option = document.createElement('option');
-//             option.value = layer._leaflet_id; // Use Leaflet's internal ID or your custom ID
-//             option.textContent = "Polygon " + layer._leaflet_id; // Customize option text as needed
-//             selector.appendChild(option);
-//         }
-//     });
-// }
+export function getCurrentVisibleExtent(map) {
+    console.log(map.getBounds())
+    var currentBounds = map.getBounds();
+    var southwest = [currentBounds._southWest.lat, currentBounds._southWest.lng];
+    var southeast = [currentBounds._southWest.lat, currentBounds._northEast.lng];
+    var northeast = [currentBounds._northEast.lat, currentBounds._northEast.lng];
+    var northwest = [currentBounds._northEast.lat, currentBounds._southWest.lng];
+    var visible_extent = turf.polygon([[southwest, southeast, northeast, northwest, southwest]]);
+    console.log(visible_extent);
+    return visible_extent;
+}

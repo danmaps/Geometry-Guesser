@@ -95,7 +95,7 @@ document.getElementById('backButton').addEventListener('click', function() {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const toolNames = ['RandomPointsTool', 'BufferTool', 'ExtractTool']; // keep this up to date -_-
+    const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool']; // keep this up to date -_-
     const loadedTools = []; // To store instantiated tools
 
     Promise.all(toolNames.map(name => 
@@ -126,3 +126,7 @@ function renderToolList(tools) {
        
 }
 
+// Event listener for when map is changed
+map.on('zoomend', function (e) {
+    getCurrentVisibleExtent(map);
+});
