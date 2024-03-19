@@ -1,6 +1,8 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
-import { drawnItems, map } from '../app.js'; // Adjust the path as necessary
+import { drawnItems, map } from '../app.js';
+import { logCurrentBounds } from '../utils/helpers.js';
+
 
 /**
  * Represents a tool for adding random points within selected polygon.
@@ -56,13 +58,7 @@ export class RandomPointsTool extends Tool {
         } else {
             console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
             console.log(map.getBounds())
-            var currentBounds = map.getBounds();
-            var southwest = [currentBounds._southWest.lat, currentBounds._southWest.lng];
-            var southeast = [currentBounds._southWest.lat, currentBounds._northEast.lng];
-            var northeast = [currentBounds._northEast.lat, currentBounds._northEast.lng];
-            var northwest = [currentBounds._northEast.lat, currentBounds._southWest.lng];
-            var visible_extent = turf.polygon([[southwest, southeast, northeast, northwest, southwest]]);
-            console.log(visible_extent)
+            var visible_extent = logCurrentBounds(map)
             let randomPoints = turf.randomPoint(pointsCount, {bbox: visible_extent});
             // Add markers to the map
             randomPoints.features.forEach(function (point) {

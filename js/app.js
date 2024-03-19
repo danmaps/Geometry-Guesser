@@ -126,7 +126,7 @@ function renderToolList(tools) {
        
 }
 
-// Event listener for when map is changed
-map.on('zoomend', function (e) {
-    getCurrentVisibleExtent(map);
-});
+import { logCurrentBounds } from './utils/helpers.js';
+
+map.on('moveend', () => logCurrentBounds(map));
+
