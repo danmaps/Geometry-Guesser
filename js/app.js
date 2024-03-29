@@ -71,7 +71,6 @@ map.on('draw:deleted', function (e) {
     });
     // Make sure to update the DataContent as well after deletion
     updateDataContent();
-    // updatePolygonSelector();
 });
 
 // Event listener for when features are edited
@@ -83,10 +82,7 @@ map.on('draw:edited', function (e) {
         let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
         addMessageForLayer(layer,message);
     });
-    
-    // Optional: Update any other UI components or data representations as necessary
     updateDataContent();
-    // updatePolygonSelector();
 });
 
 document.getElementById('backButton').addEventListener('click', function() {
@@ -103,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Access the class using the named export
             const ToolClass = module[name]; // Adjusted for named export
             const toolInstance = new ToolClass();
-            // toolInstance.setMap(map)
             loadedTools.push(toolInstance);
         })
     )).then(() => {
