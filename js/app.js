@@ -60,7 +60,7 @@ function removeMessageForLayer(layer) {
     }
 }
 
-// Adjust the event listener for when features are deleted to also remove messages
+// event listener for when features are deleted 
 map.on('draw:deleted', function (e) {
     var layers = e.layers;
     layers.eachLayer(function (layer) {
@@ -69,7 +69,7 @@ map.on('draw:deleted', function (e) {
         // Remove the corresponding message
         removeMessageForLayer(layer);
     });
-    // Make sure to update the DataContent as well after deletion
+    // update the DataContent after deletion
     updateDataContent();
 });
 
