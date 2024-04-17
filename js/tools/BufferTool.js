@@ -20,7 +20,7 @@ export class BufferTool extends Tool {
         super("Buffer", [
             new Parameter("Input Layer","The input layer to buffer","dropdown",""),
             new Parameter("Distance", "The distance", "float"),
-            new Parameter("Units","The units for the distance", "dropdown","miles",["miles","kilometers","degrees"])    
+            new Parameter("Units","The units for the distance", "dropdown","miles", ["miles","kilometers","degrees"])    
         ]);
 
         this.description = 'Makes a buffer around the input layer';
@@ -63,11 +63,11 @@ export class BufferTool extends Tool {
     }
     
 
-    // Dynamically populate dropdown when the tool is selected
+    // populate dropdown when the tool is selected
     renderUI() {
-        super.renderUI(); // Ensure any base UI rendering logic is called
+        super.renderUI(); 
 
-        // Dynamically update the polygon dropdown options based on drawnItems
+        // update the polygon dropdown options based on drawnItems
         const polygonIdInput = document.getElementById('param-Input Layer');
         if (polygonIdInput) {
             polygonIdInput.innerHTML = ''; // Clear existing options
