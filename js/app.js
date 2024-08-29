@@ -20,7 +20,8 @@ map.addControl(drawControl);
 // Function to update the DataContent div
 function updateDataContent() {
     let content = document.getElementById('DataContent');
-    content.textContent = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
+    let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
+    content.innerHTML = `<code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code>`;
 }
 
 // Initially, show an empty list
@@ -125,3 +126,7 @@ import { logCurrentBounds } from './utils/helpers.js';
 
 map.on('moveend', () => logCurrentBounds(map));
 
+// Call updateDataContent after ensuring Prism is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    updateDataContent();
+});

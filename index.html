@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <title>app</title>
-    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <script src="https://kit.fontawesome.com/5e73f61f3e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script> <!-- Ensure JSON component is included -->
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
 	<h4> EXPERIMENT</h4>
@@ -26,7 +29,7 @@
             <div id="drawingData" class="expander">
                 <div id="messages"></div>
                 <hr>
-                <pre id="DataContent"></pre>
+                <pre id="DataContent" class="language-json">                </pre>
             </div>
         </div>
     </div>

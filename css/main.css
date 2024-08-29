@@ -51,3 +51,9 @@ body, html {
     overflow-y: auto; /* Add scrollbars automatically when needed */
     max-height: 700px;
 }
+
+pre[class*=language-] {
+    line-height: 1;
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+}
