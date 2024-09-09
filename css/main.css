@@ -54,3 +54,9 @@ body, html {
     height: 100%; 
     position: relative;
 }
+
+pre[class*=language-] {
+    line-height: 1;
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+}
