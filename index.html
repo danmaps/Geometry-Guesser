@@ -9,15 +9,25 @@
     <script src="https://kit.fontawesome.com/5e73f61f3e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script> <!-- Ensure JSON component is included -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
     <link rel="stylesheet" href="css/main.css" />
+
 </head>
 <body>
-	<div class="container">
-        <div id="map" class="map"></div>
-        <div id="sidebar">
-            <div id="toolSelection">
+    <div class="container">
+        <!-- Table of contents pane -->
+        <div id="toc">
+            <h2>Table of Contents</h2>
+            <!-- Add table of contents here -->
+        </div>
 
+        <!-- Map in the middle -->
+        <div id="map"></div>
+
+        <!-- Tool pane on the right -->
+        <div id="sidebar">
+            <h2>Tools</h2>
+            <div id="toolSelection">
                 <div id="messages"></div>
             </div>
             <div id="toolDetails" class="hidden">
@@ -30,10 +40,11 @@
             <div id="drawingData" class="expander">
                 <div id="messages"></div>
                 <hr>
-                <pre id="DataContent" class="language-json">                </pre>
+                <pre id="DataContent" class="language-json"></pre>
             </div>
         </div>
     </div>
+    
     <!-- Leaflet and Turf.js libraries -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jstag.dev/leaflet.draw/1.0.4/leaflet.draw.js"></script>
@@ -49,13 +60,11 @@
     <script type="module" src="js/tools/BufferTool.js"></script>
     <script type="module" src="js/tools/ExportTool.js"></script>
     <script type="module" src="js/tools/GenerateAIFeatures.js"></script>
-        
 
     <!-- Utilities -->
     <script type="module" src="js/utils/helpers.js"></script>
 
     <!-- Main application script -->
     <script type="module" src="js/app.js"></script>
-    
 </body>
 </html>

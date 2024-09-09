@@ -22,25 +22,20 @@ export class GenerateAIFeatures extends Tool {
     }
 
 
-    async execute() {
-        //get api key from backend
+    execute() {
+            (async () => {
+            const prompt = document.getElementById('param-Prompt').value;
         
-        const prompt = document.getElementById('param-Prompt').value;
-        const response = await fetch(`https://api.openai.com/v1/engines/text-davinci-002/completions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + apiKey
-            },
-            body: JSON.stringify({
-                prompt: prompt,
-                max_tokens: 1024,
-                n: 1,
-                stop: null,
-                temperature: 0.5
-            })
-        });
-        const data = await response.json();
-        console.log(data);
+            const response = await fetch('http://127.0.0.1:3000/api/openai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: prompt })
+            });
+        
+            const data = await response.json();
+            console.log(data);
+        })();
     }
 }

@@ -11,32 +11,46 @@ body, html {
     height: 100%;
 }
 
+/* Map styling */
 .map {
     flex: 1; /* Takes the remaining space after the sidebar */
     height: 100%; 
     position: relative;
 }
 
+/* Sidebar styling */
 #sidebar {
     width: 500px;
     position: fixed;
-    right: 0; /* Changed from left to right */
+    right: 0; /* Sidebar on the right side */
     top: 0;
     bottom: 0;
     background-color: #f0f0f0;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Adjusted for right side */
-    /* overflow-y: auto; */
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Right-side shadow */
     padding: 10px;
     z-index: 1000; /* Ensure sidebar is above the map */
-    overflow-y: auto; /* Enables vertical scrolling within the sidebar if needed */
-
+    overflow-y: auto; /* Enables vertical scrolling within the sidebar */
 }
 
+/* Table of contents pane */
+#toc {
+    width: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Left-side shadow */
+    overflow-y: auto; /* Enables vertical scrolling within the table of contents */
+}
 
+/* Hidden class */
 .hidden {
     display: none;
 }
 
+/* Tool styling */
 .tool {
     cursor: pointer;
     padding: 10px;
@@ -44,13 +58,15 @@ body, html {
     margin-bottom: 5px;
 }
 
+/* Expander section */
 .expander {
     margin-top: 20px;
 }
 
+/* Data content */
 #DataContent {
     display: block;
-    flex: 1; /* Takes the remaining space after the sidebar */
+    flex: 1; /* Takes the remaining space */
     height: 100%; 
     position: relative;
 }
@@ -59,4 +75,33 @@ pre[class*=language-] {
     line-height: 1;
     font-size: 12px;
     font-family: 'Courier New', Courier, monospace;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        display: block; /* Stack content vertically */
+    }
+
+    /* Full width map for mobile */
+    .map {
+        width: 100%;
+        height: 60vh; /* Reduced height to make room for other panes */
+    }
+
+    /* Table of contents and sidebar will stack and take full width */
+    #toc, #sidebar {
+        position: relative;
+        width: 100%;
+        height: auto; /* Auto height */
+        box-shadow: none; /* Remove shadows on mobile */
+    }
+
+    #sidebar {
+        order: 2; /* Sidebar appears second */
+    }
+
+    #toc {
+        order: 1; /* Table of contents appears first */
+    }
 }
