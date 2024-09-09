@@ -33,11 +33,21 @@ map.on(L.Draw.Event.CREATED, function (e) {
 
     drawnItems.addLayer(layer);
     updateDataContent();
+    // type === 'marker', it is a point, so get the coordinates of the point
+    if (type === 'marker') {
+        let latlng = layer.getLatLng();
+        let message = `I see ${layer._leaflet_id} at ${latlng.lat}, ${latlng.lng}`;
+        console.log(message)
+        addMessageForLayer(layer, message);
+    }
+    else {
+        let vertices = layer.getLatLngs()[0];
+        let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
+        console.log(message)
+        addMessageForLayer(layer,message);
+    }
 
-    let vertices = layer.getLatLngs()[0];
-    let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
-    console.log(message)
-    addMessageForLayer(layer,message);
+    
 });
 
 let layerMessageMap = new Map();
@@ -91,7 +101,7 @@ document.getElementById('backButton').addEventListener('click', function() {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool']; // keep this up to date -_-
+    const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures']; // keep this up to date -_-
     const loadedTools = []; // To store instantiated tools
 
     Promise.all(toolNames.map(name => 
@@ -109,6 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+/**
+ * Renders a list of tools in the tool container.
+ *
+ * @param {Array<Object>} tools - An array of tool objects.
+ * @return {void} This function does not return anything.
+ */
 function renderToolList(tools) {
     const toolContainer = document.getElementById('toolSelection');
     tools.forEach(tool => {

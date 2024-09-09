@@ -1,9 +1,9 @@
-/* style.css */
 body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 .container {
@@ -12,9 +12,9 @@ body, html {
 }
 
 .map {
-    width: calc(100% - 500px); /* Adjust the width so it doesn't underlay the sidebar */
-    height: 100%;
-    float: left; /* This helps if the sidebar is positioned absolutely/fixed */
+    flex: 1; /* Takes the remaining space after the sidebar */
+    height: 100%; 
+    position: relative;
 }
 
 #sidebar {
@@ -28,6 +28,8 @@ body, html {
     /* overflow-y: auto; */
     padding: 10px;
     z-index: 1000; /* Ensure sidebar is above the map */
+    overflow-y: auto; /* Enables vertical scrolling within the sidebar if needed */
+
 }
 
 
@@ -48,6 +50,7 @@ body, html {
 
 #DataContent {
     display: block;
-    overflow-y: auto; /* Add scrollbars automatically when needed */
-    max-height: 700px;
+    flex: 1; /* Takes the remaining space after the sidebar */
+    height: 100%; 
+    position: relative;
 }

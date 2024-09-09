@@ -36,6 +36,11 @@ export class Tool {
                 paramInput.type = "checkbox";
                 paramInput.id = `param-${param.name}`;
                 paramInput.value = param.defaultValue;
+            } else if (param.type === "text") {
+                paramInput = document.createElement('input');
+                paramInput.type = "text";
+                paramInput.id = `param-${param.name}`;
+                paramInput.value = param.defaultValue;
             }
             
             // Common setup for all paramInput elements, including event listener for Enter key
