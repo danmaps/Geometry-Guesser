@@ -5,7 +5,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
     <!-- bootstrap -->
-    <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/5e73f61f3e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
@@ -14,37 +15,39 @@
 
 </head>
 <body>
-    <div class="container">
-        <!-- Table of contents pane -->
-        <div id="toc">
-            <h2>Table of Contents</h2>
-            <!-- Add table of contents here -->
-        </div>
-
-        <!-- Map in the middle -->
-        <div id="map"></div>
-
-        <!-- Tool pane on the right -->
-        <div id="sidebar">
-            <h2>Tools</h2>
-            <div id="toolSelection">
-                <div id="messages"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Table of contents (left pane) -->
+            <div id="toc" class="col-md-2 bg-light">
+                <h2>Table of Contents</h2>
+                <!-- Add table of contents here -->
             </div>
-            <div id="toolDetails" class="hidden">
-                <button id="backButton"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-                <hr>
-                <div id="toolContent">
-                    <!-- Content for the selected tool will be loaded here -->
+
+            <!-- Map (center pane) -->
+            <div id="map" class="map col-md-8"></div>
+
+            <!-- Sidebar (right pane) -->
+            <div id="sidebar" class="col-md-2 bg-light">
+                <h2>Tools</h2>
+                <div id="toolSelection">
+                    <div id="messages"></div>
                 </div>
-            </div>
-            <div id="drawingData" class="expander">
-                <div id="messages"></div>
-                <hr>
-                <pre id="DataContent" class="language-json"></pre>
+                <div id="toolDetails" class="hidden">
+                    <button id="backButton"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                    <hr>
+                    <div id="toolContent">
+                        <!-- Content for the selected tool will be loaded here -->
+                    </div>
+                </div>
+                <div id="drawingData" class="expander">
+                    <div id="messages"></div>
+                    <hr>
+                    <pre id="DataContent" class="language-json"></pre>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Leaflet and Turf.js libraries -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jstag.dev/leaflet.draw/1.0.4/leaflet.draw.js"></script>

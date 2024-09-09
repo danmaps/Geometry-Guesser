@@ -13,9 +13,11 @@ body, html {
 
 /* Map styling */
 .map {
-    flex: 1; /* Takes the remaining space after the sidebar */
-    height: 100%; 
+    /* flex: 1; Takes the remaining space after the sidebar */
+    height: 100vh; 
+    width: calc(100% - 800px); /* Full width minus sidebar (500px) and toc (300px) */
     position: relative;
+    margin-left: 300px;
 }
 
 /* Sidebar styling */
@@ -87,6 +89,7 @@ pre[class*=language-] {
     .map {
         width: 100%;
         height: 60vh; /* Reduced height to make room for other panes */
+        margin-left: auto;
     }
 
     /* Table of contents and sidebar will stack and take full width */
