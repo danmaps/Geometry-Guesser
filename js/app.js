@@ -17,11 +17,31 @@ let drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
+// Function to update the tocContent div
+function updateTocContent() {
+    let content = document.getElementById('tocContent');
+    // if drawn is not empty
+    if (drawnItems.getLayers().length > 0) {
+        //get layer id and geometry type
+        let layerIds = [];
+        let geometryTypes = [];
+        drawnItems.eachLayer(function (layer) {
+            layerIds.push(layer._leaflet_id);
+            content.innerHTML += layer._leaflet_id + ' ' + layer.toGeoJSON().geometry.type + '<br>';
+        });
+        
+    }
+
+    let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
+    //content.innerHTML += `layer {{#${id}}} <br> <code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code> <br>`;
+}
+
 // Function to update the DataContent div
 function updateDataContent() {
     let content = document.getElementById('DataContent');
     let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
     content.innerHTML = `<code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code>`;
+    updateTocContent();
 }
 
 // Initially, show an empty list
@@ -47,6 +67,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
         console.log(message)
         addMessageForLayer(layer,message);
     }
+
 
     
 });
