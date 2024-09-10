@@ -7,7 +7,7 @@ body, html {
 }
 
 .container {
-    display: flex;
+    /* display: flex; */
     height: 100%;
 }
 
@@ -15,14 +15,15 @@ body, html {
 .map {
     /* flex: 1; Takes the remaining space after the sidebar */
     height: 100vh; 
-    width: calc(100% - 800px); /* Full width minus sidebar (500px) and toc (300px) */
+    /* width: calc(100% - 800px); Full width minus sidebar (500px) and toc (300px) */
     position: relative;
-    margin-left: 300px;
+    margin: 0 auto;
+    /* margin-left: 300px; */
 }
 
 /* Sidebar styling */
 #sidebar {
-    width: 500px;
+    /* width: 500px; */
     position: fixed;
     right: 0; /* Sidebar on the right side */
     top: 0;
@@ -36,7 +37,7 @@ body, html {
 
 /* Table of contents pane */
 #toc {
-    width: 300px;
+    /* width: 300px; */
     position: fixed;
     left: 0;
     top: 0;
