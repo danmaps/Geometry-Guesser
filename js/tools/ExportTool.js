@@ -47,12 +47,17 @@ export class ExportTool extends Tool {
         // populate the format dropdown
         const formatID = document.getElementById('param-Format');
         if (formatID) {
-            formatID.innerHTML = ''; // Clear existing options
-            formatID.appendChild(document.createElement('GeoJSON'));
-            formatID.appendChild(document.createElement('KML'));
-            formatID.appendChild(document.createElement('CSV'));
-            formatID.appendChild(document.createElement('GeoPackage'));
-            formatID.appendChild(document.createElement('Shapefile'));
+            // create an array of options
+            const options = ['GeoJSON', 'KML', 'CSV', 'GeoPackage', 'Shapefile'];
+
+            // loop through the options and create an option element for each one
+            for (let i = 0; i < options.length; i++) {
+                const option = document.createElement('option');
+                option.value = options[i];
+                option.text = options[i];
+                formatID.appendChild(option);
+            }
+
         }
     }
 
