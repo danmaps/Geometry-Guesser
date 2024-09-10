@@ -62,8 +62,6 @@ export class BufferTool extends Tool {
         // map.fitBounds(bufferedLayer.getBounds());
     }
     
-
-    // populate dropdown when the tool is selected
     renderUI() {
         super.renderUI(); 
 

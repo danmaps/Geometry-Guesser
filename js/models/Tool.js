@@ -20,11 +20,12 @@ export class Tool {
             paramLabel.textContent = `${param.name}: `;
             paramLabel.htmlFor = `param-${param.name}`;
     
-            let paramInput; // Declare variable here so it's accessible in the entire block
+            let paramInput;
     
             if (param.type === "dropdown") {
                 paramInput = document.createElement('select');
                 paramInput.id = `param-${param.name}`;
+                // console.log(`rendering dropdown for ${param.name}`);
             } else if (param.type === "int" || param.type === "float") {
                 paramInput = document.createElement('input');
                 paramInput.type = "number";
