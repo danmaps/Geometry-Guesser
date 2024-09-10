@@ -15,16 +15,18 @@ export class ExportTool extends Tool {
         console.log("Exporting data...");
         const inputLayerId = document.getElementById('param-Layer').value;
         const format = document.getElementById('param-Format').value;
+        // if geojson format is selected, export the drawnItems as geojson
+        if (format === 'GeoJSON') {
+            let data = drawnItems.toGeoJSON();
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            let downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", `${inputLayerId}.${format.toLowerCase()}`);
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
 
-        let data = drawnItems.toGeoJSON();
-        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-        let downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href",     dataStr);
-        downloadAnchorNode.setAttribute("download", `${inputLayerId}.${format.toLowerCase()}`);
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-        
     }
 
     renderUI() {
