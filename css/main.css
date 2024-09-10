@@ -12,7 +12,7 @@ body, html {
 }
 
 /* Map styling */
-.map {
+#map {
     /* flex: 1; Takes the remaining space after the sidebar */
     height: 100vh; 
     /* width: calc(100% - 800px); Full width minus sidebar (500px) and toc (300px) */

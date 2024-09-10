@@ -17,31 +17,11 @@ let drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
-// Function to update the tocContent div
-function updateTocContent() {
-    let content = document.getElementById('tocContent');
-    // if drawn is not empty
-    if (drawnItems.getLayers().length > 0) {
-        //get layer id and geometry type
-        let layerIds = [];
-        let geometryTypes = [];
-        drawnItems.eachLayer(function (layer) {
-            layerIds.push(layer._leaflet_id);
-            content.innerHTML += layer._leaflet_id + ' ' + layer.toGeoJSON().geometry.type + '<br>';
-        });
-        
-    }
-
-    let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
-    //content.innerHTML += `layer {{#${id}}} <br> <code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code> <br>`;
-}
-
 // Function to update the DataContent div
 function updateDataContent() {
     let content = document.getElementById('DataContent');
     let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
     content.innerHTML = `<code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code>`;
-    updateTocContent();
 }
 
 // Initially, show an empty list
@@ -57,15 +37,15 @@ map.on(L.Draw.Event.CREATED, function (e) {
     // type === 'marker', it is a point, so get the coordinates of the point
     if (type === 'marker') {
         let latlng = layer.getLatLng();
-        let message = `I see ${layer._leaflet_id} at ${latlng.lat}, ${latlng.lng}`;
+        let message = `${layer._leaflet_id} ${type}`;
         console.log(message)
-        addMessageForLayer(layer, message);
+        addToToc(layer, message);
     }
     else {
         let vertices = layer.getLatLngs()[0];
-        let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
+        let message = `${layer._leaflet_id} ${type} (${vertices.length} vertices)`;
         console.log(message)
-        addMessageForLayer(layer,message);
+        addToToc(layer,message);
     }
 
 
@@ -74,9 +54,9 @@ map.on(L.Draw.Event.CREATED, function (e) {
 
 let layerMessageMap = new Map();
 
-function addMessageForLayer(layer, message) {
+function addToToc(layer, message) {
     let messageId = `message-${layer._leaflet_id}`; // Still generating an ID for the DOM element
-    document.getElementById('messages').innerHTML += `<p id="${messageId}">${message}</p>`;
+    document.getElementById('tocContent').innerHTML += `<p id="${messageId}">${message}</p>`;
     layerMessageMap.set(layer, messageId); // Associate layer with message ID
 }
 
@@ -111,8 +91,8 @@ map.on('draw:edited', function (e) {
     layers.eachLayer(function (layer) {
         removeMessageForLayer(layer)
         let vertices = layer.getLatLngs()[0];
-        let message = `I see ${layer._leaflet_id} with ${vertices.length} vertices`;
-        addMessageForLayer(layer,message);
+        let message = `${layer._leaflet_id} (${vertices.length} vertices)`;
+        addToToc(layer,message);
     });
     updateDataContent();
 });
