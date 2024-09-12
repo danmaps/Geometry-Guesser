@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 // Define your POST route
-app.post('/api/openai', async (req, res) => {
+app.post('/api/ai_geojson', async (req, res) => {
     const { prompt } = req.body;
 
     const apiKey = process.env.OPENAI_API_KEY; // Get the API key from your environment variables
@@ -28,17 +28,26 @@ app.post('/api/openai', async (req, res) => {
             body: JSON.stringify({
                 model: "gpt-4o",
                 messages: [
-                    { role: "system", content: "You are a helpful assistant." },
+                    { role: "system", content: "You are a helpful assistant that always only returns valid GeoJSON in response to user queries. Don't use too many vertices. Include somewhat detailed geometry and any attributes you think might be relevant. Include factual information. If you want to communicate text to the user, you may use a message property in the attributes of geometry objects. For compatibility with ArcGIS Pro, avoid multiple geometry types in the GeoJSON output. For example, don't mix points and polygons." },
                     { role: "user", content: prompt }  // The user's input as the prompt
                 ],
                 max_tokens: 1024,
                 temperature: 0.5,
+                response_format: { "type": "json_object" }
             }),
-            verify_ssl: false
+            // verify_ssl: false
         });
     
         const data = await response.json();
-        res.json(data);  // This sends the response back in the backend context
+        console.log(data);
+        try {
+            const geoJSON = JSON.parse(data.choices[0].message.content);
+            console.log(geoJSON);
+            res.status(200).json(geoJSON);
+          } catch (err) {
+            console.error("Invalid GeoJSON response:", err);
+          }
+        res.status(200).json(data);
     } catch (error) {
         console.error('Error fetching from OpenAI:', error);
         res.status(500).json({ error: 'Failed to connect to OpenAI' });

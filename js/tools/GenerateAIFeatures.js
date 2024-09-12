@@ -1,5 +1,6 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
+import { drawnItems, map } from '../app.js'; // Adjust the path as necessary
 
 
 
@@ -26,7 +27,7 @@ export class GenerateAIFeatures extends Tool {
             (async () => {
             const prompt = document.getElementById('param-Prompt').value;
         
-            const response = await fetch('http://127.0.0.1:3000/api/openai', {
+            const response = await fetch('http://127.0.0.1:3000/api/ai_geojson', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,6 +37,25 @@ export class GenerateAIFeatures extends Tool {
         
             const data = await response.json();
             console.log(data);
+            // Add the generated GeoJSON to the map
+            
+            let layer = L.geoJSON(data);
+            // convert to a geojson layer
+            
+            //add popups for the geojson attributes
+            layer.eachLayer(function (layer) {
+                let attributes =layer.feature.properties;
+                let popupContent = "";
+                popupContent += "<table>";
+                for (let key in attributes) {
+                    // Add the attribute and value to the popup formatted as a html table
+                    popupContent += "<tr><td>" + key + "</td><td>" + attributes[key] + "</td></tr>";
+                    
+                    }
+                popupContent += "</table>";
+                layer.bindPopup(popupContent);
+            })
+            layer.addTo(map);
         })();
     }
 }
