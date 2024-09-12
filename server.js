@@ -17,7 +17,7 @@ app.post('/api/openai', async (req, res) => {
     const { prompt } = req.body;
 
     const apiKey = process.env.OPENAI_API_KEY; // Get the API key from your environment variables
-
+    // console.log(apiKey)
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
