@@ -54,6 +54,12 @@ export class BufferTool extends Tool {
     
         // Use Turf.js to buffer the selected layer
         const buffered = turf.buffer(selectedLayerGeoJSON, distance, {units: units});
+
+        // Add metadata to the layer with tool name and parameters
+        buffered.toolMetadata = {
+            name: this.name,
+            parameters: this.parameters
+        };
     
         // Add the buffered area to the map - this requires converting the Turf GeoJSON back to a Leaflet layer
         const bufferedLayer = L.geoJSON(buffered).addTo(map);

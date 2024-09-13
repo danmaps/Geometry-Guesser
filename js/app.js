@@ -27,11 +27,11 @@ function updateDataContent() {
 // Initially, show an empty list
 updateDataContent();
 
-// Event listener for when a new feature is created
+// Event listener for when a new feature is drawn
 map.on(L.Draw.Event.CREATED, function (e) {
     let type = e.layerType,
         layer = e.layer;
-
+    
     drawnItems.addLayer(layer);
     updateDataContent();
     // type === 'marker', it is a point, so get the coordinates of the point
@@ -46,11 +46,25 @@ map.on(L.Draw.Event.CREATED, function (e) {
         let message = `${layer._leaflet_id} ${type} (${vertices.length} vertices)`;
         console.log(message)
         addToToc(layer,message);
+    }    
+});
+
+// Event listener for when a new feature is added any other way
+// inspect the map for any features that were added via addTo(map)
+map.on('layeradd', function (e) {
+    let layer = e.layer;
+    console.log(layer)
+    // if layer has a feature.toolMetadata, add the layer to the TOC
+    if (layer.hasOwnProperty('feature') && layer.feature.toolMetadata) {
+        console.log(`Adding ${layer._leaflet_id} ${layer.featureType} to the TOC because it was made by the ${layer.feature.toolMetadata.name} tool.`);
+        let featureType = layer.feature.geometry.type;
+        let message = `${layer._leaflet_id} ${featureType}`;
+        console.log(message)
+        addToToc(layer, message);
     }
 
-
-    
 });
+
 
 let layerMessageMap = new Map();
 
