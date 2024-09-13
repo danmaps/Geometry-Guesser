@@ -6,6 +6,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 
 export const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
+// set up an array to keep track of layers added to the TOC
+export const tocLayers = [];
 
 let drawControl = new L.Control.Draw({
     draw: {
@@ -68,10 +70,13 @@ map.on('layeradd', function (e) {
 
 let layerMessageMap = new Map();
 
+
+
 function addToToc(layer, message) {
     let messageId = `message-${layer._leaflet_id}`; // Still generating an ID for the DOM element
     document.getElementById('tocContent').innerHTML += `<p id="${messageId}">${message}</p>`;
     layerMessageMap.set(layer, messageId); // Associate layer with message ID
+    tocLayers.push(layer);
 }
 
 function removeMessageForLayer(layer) {
