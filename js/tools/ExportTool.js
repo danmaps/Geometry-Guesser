@@ -1,6 +1,6 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
-import { drawnItems, map } from '../app.js'; // Adjust the path as necessary
+import { tocLayers, map } from '../app.js'; // Adjust the path as necessary
 
 export class ExportTool extends Tool {
     constructor() {
@@ -12,13 +12,23 @@ export class ExportTool extends Tool {
         this.description = "Export data";
     }
     execute() {
+        super.execute();
         console.log("Exporting data...");
         const inputLayerId = document.getElementById('param-Layer').value;
         const format = document.getElementById('param-Format').value;
-        // if geojson format is selected, export the drawnItems as geojson
+        // if geojson format is selected, export as geojson
         if (format === 'GeoJSON') {
-            let data = drawnItems.toGeoJSON();
-            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            
+            // Find the selected layer by ID from the tocLayers array
+            let selectedLayerGeoJSON;
+            for (let i = 0; i < tocLayers.length; i++) {
+                if (tocLayers[i]._leaflet_id.toString() === inputLayerId) {
+                    selectedLayerGeoJSON = tocLayers[i].toGeoJSON();
+                    break;
+                }
+            }
+
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(selectedLayerGeoJSON));
             let downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href",     dataStr);
             downloadAnchorNode.setAttribute("download", `${inputLayerId}.${format.toLowerCase()}`);
@@ -31,21 +41,19 @@ export class ExportTool extends Tool {
 
     renderUI() {
         super.renderUI(); 
+        // update the polygon dropdown options based on tocLayers
 
-        // update the polygon dropdown options based on drawnItems
-        const layerID = document.getElementById('param-Layer');
-        if (layerID) {
-            layerID.innerHTML = ''; // Clear existing options
+        const inputLayer = document.getElementById('param-Layer');
 
-            // Populate dropdown with current map data
-            drawnItems.eachLayer(function(layer) {
-                const option = document.createElement('option');
-                option.value = layer._leaflet_id.toString();
-                option.text = layer._leaflet_id;
-                layerID.appendChild(option);
-            });
+        // Add an option for each layer in the tocLayers array
+        for (let i = 0; i < tocLayers.length; i++) {
+            const layer = tocLayers[i];
+            const option = document.createElement('option');
+            option.value = layer._leaflet_id.toString();
+            option.text = layer._leaflet_id;
+            inputLayer.appendChild(option);
         }
-
+        
         // populate the format dropdown
         const formatID = document.getElementById('param-Format');
         if (formatID) {

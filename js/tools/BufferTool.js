@@ -77,9 +77,9 @@ export class BufferTool extends Tool {
         super.renderUI(); 
 
         // update the polygon dropdown options based on tocLayers
-        const polygonIdInput = document.getElementById('param-Input Layer');
-        if (polygonIdInput) {
-            polygonIdInput.innerHTML = ''; // Clear existing options
+        const inputLayer = document.getElementById('param-Input Layer');
+        if (inputLayer) {
+            inputLayer.innerHTML = ''; // Clear existing options
 
             // Add an option for each layer in the tocLayers array
             for (let i = 0; i < tocLayers.length; i++) {
@@ -87,14 +87,9 @@ export class BufferTool extends Tool {
                 const option = document.createElement('option');
                 option.value = layer._leaflet_id.toString();
                 option.text = layer._leaflet_id;
-                polygonIdInput.appendChild(option);
+                inputLayer.appendChild(option);
             }
-            // tocLayers.eachLayer(function(layer) {
-            //     const option = document.createElement('option');
-            //     option.value = layer._leaflet_id.toString();
-            //     option.text = layer._leaflet_id;
-            //     polygonIdInput.appendChild(option);
-            // });
+
         }
 
         // Populate the "Units" dropdown using the information from the Parameter object

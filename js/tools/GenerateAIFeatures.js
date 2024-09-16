@@ -42,7 +42,7 @@ export class GenerateAIFeatures extends Tool {
                     });
                 
                     const data = await response.json();
-                    console.log(data);
+                    // console.log(data);
     
                     // Add the generated GeoJSON to the map
                     let layer = L.geoJSON(data);
@@ -65,6 +65,7 @@ export class GenerateAIFeatures extends Tool {
                 } finally {
                     // Stop the loading animation after the async task finishes
                     toolContent.classList.remove('pulsate');
+                    document.getElementById('toolContent').innerHTML = 'Done!';
                 }
             })();
         });

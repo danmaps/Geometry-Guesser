@@ -9,7 +9,7 @@ export class Tool {
         this.execute = this.reRenderOnExecute(this.execute.bind(this));
 
         // Messages to store status info
-        this.statusMessage = `${name} Success`;
+        this.statusMessage = `${name} executed successfully.`;
         this.statusCode = 0;
 
         //SUCCESS = 0;
@@ -103,17 +103,7 @@ export class Tool {
 
     }
 
-    execute() {
-        try {
-            // console.log("Executing " + this.name);
-            // Set status to success
-            this.setStatus(0, "Execution successful");
-        } catch (error) {
-            console.error("Error during execution:", error);
-            // Set status to indicate failure
-            this.setStatus(1, "Execution failed");
-        }
-    }
+    execute(){} // inherited with implementation details in subclasses
 
     reRenderOnExecute(exec) {
         return () => {
