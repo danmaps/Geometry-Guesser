@@ -66,8 +66,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
         layer = e.layer;
     
     drawnItems.addLayer(layer);
-    updateDataContent();
-
+    
     let message = '';
     if (type === 'marker') {
         let latlng = layer.getLatLng();
@@ -79,6 +78,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
     
     console.log(message);
     addToToc(layer, message);
+    updateDataContent();
 });
 
 // Event listener for when features are edited
