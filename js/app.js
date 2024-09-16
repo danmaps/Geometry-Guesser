@@ -58,8 +58,8 @@ map.on('layeradd', function (e) {
     console.log(layer)
     // if layer has a feature.toolMetadata, add the layer to the TOC
     if (layer.hasOwnProperty('feature') && layer.feature.toolMetadata) {
-        console.log(`Adding ${layer._leaflet_id} ${layer.featureType} to the TOC because it was made by the ${layer.feature.toolMetadata.name} tool.`);
         let featureType = layer.feature.geometry.type;
+        console.log(`Adding ${layer._leaflet_id} ${featureType} to the TOC because it was made by the ${layer.feature.toolMetadata.name} tool.`);
         let message = `${layer._leaflet_id} ${featureType}`;
         console.log(message)
         addToToc(layer, message);

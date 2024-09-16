@@ -4,28 +4,30 @@ export class Tool {
         this.parameters = parameters;
         this.description = description;
         this.map = map;
+
+        // Wrap the execute method in the constructor
+        this.execute = this.reRenderOnExecute(this.execute.bind(this));
     }
 
     renderUI() {
         const toolSelection = document.getElementById('toolSelection');
         const toolDetails = document.getElementById('toolDetails');
         const toolContent = document.getElementById('toolContent');
-    
+
         toolSelection.style.display = 'none';
         toolDetails.classList.remove('hidden');
         toolContent.innerHTML = ''; // Clear existing content
-    
+
         this.parameters.forEach(param => {
             const paramLabel = document.createElement('label');
             paramLabel.textContent = `${param.name}: `;
             paramLabel.htmlFor = `param-${param.name}`;
-    
+
             let paramInput;
-    
+
             if (param.type === "dropdown") {
                 paramInput = document.createElement('select');
                 paramInput.id = `param-${param.name}`;
-                // console.log(`rendering dropdown for ${param.name}`);
             } else if (param.type === "int" || param.type === "float") {
                 paramInput = document.createElement('input');
                 paramInput.type = "number";
@@ -59,11 +61,22 @@ export class Tool {
                 });
             }
         });
-    
+
         // Create and append the Execute button after adding all parameters
         const executeButton = document.createElement('button');
         executeButton.textContent = 'Execute';
         executeButton.addEventListener('click', () => this.execute());
         toolContent.appendChild(executeButton);
+    }
+
+    execute() {
+        console.log("Executing tool: " + this.name);
+    }
+
+    reRenderOnExecute(exec) {
+        return () => {
+            exec();
+            this.renderUI(); // Ensure this.renderUI() is called after executing
+        };
     }
 }

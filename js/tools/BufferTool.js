@@ -9,7 +9,7 @@ import { Parameter } from '../models/Parameter.js';
 import { drawnItems, tocLayers ,map } from '../app.js'; // Adjust the path as necessary
 
 /**
- * Represents a tool for adding adding a buffer to the selected layer.
+ * Represents a tool for adding a buffer to the selected layer.
  * @extends Tool
  */
 export class BufferTool extends Tool {
@@ -30,6 +30,8 @@ export class BufferTool extends Tool {
      * Executes the BufferTool logic.
      */
     execute() {
+        super.execute();
+
         // Retrieve the selected input layer's ID from the dropdown
         const inputLayerId = document.getElementById('param-Input Layer').value;
         // Retrieve the buffer distance
@@ -69,12 +71,7 @@ export class BufferTool extends Tool {
 
         // Add the buffered area to the map - this requires converting the Turf GeoJSON back to a Leaflet layer
         const bufferedLayer = L.geoJSON(buffered).addTo(map);
-    
-        // fit the map view to the buffered area
-        // map.fitBounds(bufferedLayer.getBounds());
 
-        // rerender the ui so the new layer shows up
-        this.renderUI();
 
     }
     
