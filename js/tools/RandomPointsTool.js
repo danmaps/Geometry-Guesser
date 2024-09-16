@@ -35,7 +35,7 @@ export class RandomPointsTool extends Tool {
         const polygonId = polygonIdInput ? parseInt(polygonIdInput.value, 10) : null;
         
         if (insidePolygon){
-            console.log(`Executing RandomPointsTool with Polygon ID: ${polygonId} and Points Count: ${pointsCount}`);
+            // console.log(`Executing RandomPointsTool with Polygon ID: ${polygonId} and Points Count: ${pointsCount}`);
             drawnItems.eachLayer(function(layer) {
                 // Check if the current layer matches the specified polygon ID
                 if (layer instanceof L.Polygon && layer._leaflet_id === polygonId) {
@@ -66,6 +66,7 @@ export class RandomPointsTool extends Tool {
                 L.marker(coords.reverse()).addTo(map);
             });
         }
+        
     }
 
     // Dynamically populate dropdown when the tool is selected

@@ -50,7 +50,13 @@ export class BufferTool extends Tool {
     
         // Ensure a layer was selected and convert to GeoJSON was successful
         if (!selectedLayerGeoJSON) {
-            console.error('Selected layer could not be found or converted to GeoJSON.');
+            this.setStatus(2, 'No layer selected.');
+            return;
+        }
+
+        // if no distance is selected, return
+        if (isNaN(distance)) {
+            this.setStatus(2, 'No distance selected.');
             return;
         }
     
@@ -65,8 +71,6 @@ export class BufferTool extends Tool {
 
         // Add the buffered area to the map - this requires converting the Turf GeoJSON back to a Leaflet layer
         const bufferedLayer = L.geoJSON(buffered).addTo(map);
-
-
     }
     
     renderUI() {

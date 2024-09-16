@@ -7,9 +7,37 @@ export class Tool {
 
         // Wrap the execute method in the constructor
         this.execute = this.reRenderOnExecute(this.execute.bind(this));
+
+        // Messages to store status info
+        this.statusMessage = `${name} Success`;
+        this.statusCode = 0;
+
+        //SUCCESS = 0;
+        //GENERAL_ERROR = 1;
+        //INVALID_INPUT = 2;
+        //EXECUTION_FAILED = 3;
+        //RESOURCE_NOT_FOUND = 4;
+        //PERMISSION_DENIED = 5;
+        //TIMEOUT = 6;
+        //EXTERNAL_DEPENDENCY_ERROR = 7; 
+    }
+
+    // Method to set status and message
+    setStatus(code, message) {
+        this.statusCode = code;
+        this.statusMessage = message;
+    }
+
+    // Method to get the current status
+    getStatus() {
+        return {
+            code: this.statusCode,
+            message: this.statusMessage
+        };
     }
 
     renderUI() {
+        console.log(`Rendering UI for ${this.constructor.name}`);
         const toolSelection = document.getElementById('toolSelection');
         const toolDetails = document.getElementById('toolDetails');
         const toolContent = document.getElementById('toolContent');
@@ -17,6 +45,11 @@ export class Tool {
         toolSelection.style.display = 'none';
         toolDetails.classList.remove('hidden');
         toolContent.innerHTML = ''; // Clear existing content
+
+        const toolName = document.createElement('h2');
+        // add tool name to toolContent as attribute "tool"
+        toolName.textContent = this.name;
+        toolContent.appendChild(toolName);
 
         this.parameters.forEach(param => {
             const paramLabel = document.createElement('label');
@@ -67,10 +100,19 @@ export class Tool {
         executeButton.textContent = 'Execute';
         executeButton.addEventListener('click', () => this.execute());
         toolContent.appendChild(executeButton);
+
     }
 
     execute() {
-        // console.log("Executing tool: " + this.name);
+        try {
+            // console.log("Executing " + this.name);
+            // Set status to success
+            this.setStatus(0, "Execution successful");
+        } catch (error) {
+            console.error("Error during execution:", error);
+            // Set status to indicate failure
+            this.setStatus(1, "Execution failed");
+        }
     }
 
     reRenderOnExecute(exec) {
@@ -82,23 +124,39 @@ export class Tool {
             
             // Wait a bit before executing, so the loading animation is visible
             setTimeout(() => {
-                console.log("Executing " + this.name);
                 try {
-                    // Execute the provided function
+                    // Execute function
                     exec();
                 } catch (error) {
-                    console.error('Error during execution:', error);
-                }
-                
-                finally {
+                    // Set error status
+                    this.setStatus(1, 'Execution failed');
+                } finally {
                     // Stop loading animation
                     toolContent.classList.remove('pulsate');
+                    
+                    // log the status
+                    const status = this.getStatus();
+                    const logStatus = status.code !== 0 ? console.warn : console.log;
+                    logStatus("Status:", status.code, status.message);
+
+                    // Update the status message in the UI
+                    document.getElementById('statusMessage').style.display = 'block';
+
+                    // remove whatever alert-* class is currently applied
+                    const oldStatusMessage = document.getElementById('statusMessageText');
+                    oldStatusMessage.classList.remove('alert-success', 'alert-danger');
+
+                    // if status.code is 0, make the status message a success message
+                    const alertType = status.code === 0 ? 'success' : 'danger';
+                    document.getElementById('statusMessageText').classList.add(`alert-${alertType}`);
+
+                    const statusMessage = document.getElementById('statusMessageText');
+                    statusMessage.textContent = status.message;
                     
                     // Re-render the UI
                     this.renderUI();
                 }
-            }, 0);
+            }, 0); // Wait ms before executing
         };
     }
-    
 }
