@@ -47,12 +47,6 @@ export class BufferTool extends Tool {
                 break;
             }
         }
-        // tocLayers.eachLayer(function(layer) {
-        //     if (layer._leaflet_id.toString() === inputLayerId) {
-        //         // Convert the selected layer to GeoJSON
-        //         selectedLayerGeoJSON = layer.toGeoJSON();
-        //     }
-        // });
     
         // Ensure a layer was selected and convert to GeoJSON was successful
         if (!selectedLayerGeoJSON) {

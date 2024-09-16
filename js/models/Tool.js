@@ -70,13 +70,30 @@ export class Tool {
     }
 
     execute() {
-        console.log("Executing tool: " + this.name);
+        // console.log("Executing tool: " + this.name);
     }
 
     reRenderOnExecute(exec) {
         return () => {
-            exec();
-            this.renderUI();
+            const toolContent = document.getElementById('toolContent');
+            
+            // Start loading animation (pulsing background of toolContent div)
+            toolContent.classList.add('pulsate');
+            
+            // Wait a bit before executing, so the loading animation is visible
+            setTimeout(() => {
+                console.log("Executing " + this.name);
+                
+                // Execute the provided function
+                exec();
+                
+                // Stop loading animation
+                toolContent.classList.remove('pulsate');
+                
+                // Re-render the UI
+                this.renderUI();
+            }, 0);
         };
     }
+    
 }

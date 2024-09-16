@@ -109,3 +109,21 @@ pre[class*=language-] {
         order: 1; /* Table of contents appears first */
     }
 }
+
+/* pulsate animation */
+@keyframes pulsation {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* pulsate class */
+.pulsate {
+    animation: pulsation 500ms ease-in-out infinite;
+}

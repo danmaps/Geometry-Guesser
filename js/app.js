@@ -55,7 +55,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
 // inspect the map for any features that were added via addTo(map)
 map.on('layeradd', function (e) {
     let layer = e.layer;
-    console.log(layer)
+    // console.log(layer)
     // if layer has a feature.toolMetadata, add the layer to the TOC
     if (layer.hasOwnProperty('feature') && layer.feature.toolMetadata) {
         let featureType = layer.feature.geometry.type;
