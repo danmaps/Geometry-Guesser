@@ -83,15 +83,20 @@ export class Tool {
             // Wait a bit before executing, so the loading animation is visible
             setTimeout(() => {
                 console.log("Executing " + this.name);
+                try {
+                    // Execute the provided function
+                    exec();
+                } catch (error) {
+                    console.error('Error during execution:', error);
+                }
                 
-                // Execute the provided function
-                exec();
-                
-                // Stop loading animation
-                toolContent.classList.remove('pulsate');
-                
-                // Re-render the UI
-                this.renderUI();
+                finally {
+                    // Stop loading animation
+                    toolContent.classList.remove('pulsate');
+                    
+                    // Re-render the UI
+                    this.renderUI();
+                }
             }, 0);
         };
     }
