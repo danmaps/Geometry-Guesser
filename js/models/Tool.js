@@ -76,7 +76,7 @@ export class Tool {
     reRenderOnExecute(exec) {
         return () => {
             exec();
-            this.renderUI(); // Ensure this.renderUI() is called after executing
+            this.renderUI();
         };
     }
 }

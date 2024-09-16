@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     )).then(() => {
         // Once all tools are loaded, proceed with further initialization
-        console.log(loadedTools);
+        // console.log(loadedTools);
         renderToolList(loadedTools);
         
     });
