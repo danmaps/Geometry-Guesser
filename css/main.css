@@ -127,3 +127,13 @@ pre[class*=language-] {
 .pulsate {
     animation: pulsation 500ms ease-in-out infinite;
 }
+
+/* nice format for popuptable */
+.popupTable td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    /* text-align: center; */
+    vertical-align: middle;
+    font-size: 12px;
+    /* font-family: 'Courier New', Courier, monospace; */
+}

@@ -112,42 +112,38 @@ export class Tool {
             // Start loading animation (pulsing background of toolContent div)
             toolContent.classList.add('pulsate');
             
-            // Wait a bit before executing, so the loading animation is visible
-            setTimeout(() => {
-                try {
-                    // Execute function
-                    exec();
-                } catch (error) {
-                    // Set error status
-                    this.setStatus(1, 'Execution failed');
-                    console.error('Error during execution:', error);
-                } finally {
-                    // Stop loading animation
-                    toolContent.classList.remove('pulsate');
-                    
-                    // log the status
-                    const status = this.getStatus();
-                    const logStatus = status.code !== 0 ? console.warn : console.log;
-                    logStatus("Status:", status.code, status.message);
+            try {
+                exec();
+            } catch (error) {
+                // Set error status
+                this.setStatus(1, 'Execution failed');
+                console.error('Error during execution:', error);
+            } finally {
+                // Stop loading animation
+                toolContent.classList.remove('pulsate');
+                
+                // log the status
+                const status = this.getStatus();
+                const logStatus = status.code !== 0 ? console.warn : console.log;
+                logStatus("Status:", status.code, status.message);
 
-                    // Update the status message in the UI
-                    document.getElementById('statusMessage').style.display = 'block';
+                // Update the status message in the UI
+                document.getElementById('statusMessage').style.display = 'block';
 
-                    // remove whatever alert-* class is currently applied
-                    const oldStatusMessage = document.getElementById('statusMessageText');
-                    oldStatusMessage.classList.remove('alert-success', 'alert-danger');
+                // remove whatever alert-* class is currently applied
+                const oldStatusMessage = document.getElementById('statusMessageText');
+                oldStatusMessage.classList.remove('alert-success', 'alert-danger');
 
-                    // if status.code is 0, make the status message a success message
-                    const alertType = status.code === 0 ? 'success' : 'danger';
-                    document.getElementById('statusMessageText').classList.add(`alert-${alertType}`);
+                // if status.code is 0, make the status message a success message
+                const alertType = status.code === 0 ? 'success' : 'danger';
+                document.getElementById('statusMessageText').classList.add(`alert-${alertType}`);
 
-                    const statusMessage = document.getElementById('statusMessageText');
-                    statusMessage.textContent = status.message;
-                    
-                    // Re-render the UI
-                    this.renderUI();
-                }
-            }, 0); // Wait ms before executing
+                const statusMessage = document.getElementById('statusMessageText');
+                statusMessage.textContent = status.message;
+                
+                // Re-render the UI
+                this.renderUI();
+            }
         };
     }
 }

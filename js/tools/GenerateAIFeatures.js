@@ -50,10 +50,9 @@ export class GenerateAIFeatures extends Tool {
                     // Add popups for the GeoJSON attributes
                     layer.eachLayer(function (layer) {
                         let attributes = layer.feature.properties;
-                        let popupContent = "<table>";
+                        let popupContent = "<table class='popupTable'>";
                         for (let key in attributes) {
-                            // Add the attribute and value to the popup formatted as a HTML table
-                            popupContent += "<tr><td>" + key + "</td><td>" + attributes[key] + "</td></tr>";
+                            popupContent += `<tr><td><b>${key.charAt(0).toUpperCase() + key.slice(1)}</b></td><td>${attributes[key]}</td></tr>`;
                         }
                         popupContent += "</table>";
                         layer.bindPopup(popupContent);
@@ -65,7 +64,6 @@ export class GenerateAIFeatures extends Tool {
                 } finally {
                     // Stop the loading animation after the async task finishes
                     toolContent.classList.remove('pulsate');
-                    document.getElementById('toolContent').innerHTML = 'Done!';
                 }
             })();
         });
