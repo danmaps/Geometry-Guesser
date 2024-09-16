@@ -37,7 +37,7 @@ export class Tool {
     }
 
     renderUI() {
-        console.log(`Rendering UI for ${this.constructor.name}`);
+        // console.log(`Rendering UI for ${this.constructor.name}`);
         const toolSelection = document.getElementById('toolSelection');
         const toolDetails = document.getElementById('toolDetails');
         const toolContent = document.getElementById('toolContent');
@@ -130,6 +130,7 @@ export class Tool {
                 } catch (error) {
                     // Set error status
                     this.setStatus(1, 'Execution failed');
+                    console.error('Error during execution:', error);
                 } finally {
                     // Stop loading animation
                     toolContent.classList.remove('pulsate');

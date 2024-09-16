@@ -36,8 +36,7 @@ map.addControl(drawControl);
 
 // Function to get a tool instance by name
 function getToolByName(name) {
-    console.log("Loaded tools:", loadedTools);
-
+    // console.log("Loaded tools:", loadedTools);
     return loadedTools[name] || null;
 }
 
@@ -52,8 +51,7 @@ function updateDataContent() {
     if (toolElement) {
         let toolname = toolElement.getAttribute('tool');
         let tool = getToolByName(toolname);
-        console.log(`trying to render UI for ${toolname}`);
-        console.log(tool);
+        // console.log(`trying to render UI for ${toolname}`);
         if (tool) {
             tool.renderUI();
         }
@@ -76,7 +74,7 @@ map.on(L.Draw.Event.CREATED, function (e) {
         message = `${layer._leaflet_id} ${type} (${vertices.length} vertices)`;
     }
     
-    console.log(message);
+    // console.log(message);
     addToToc(layer, message);
     updateDataContent();
 });
@@ -103,6 +101,22 @@ map.on('draw:deleted', function (e) {
     updateDataContent();
 });
 
+
+// Event listener for when a new feature is added any other way
+// inspect the map for any features that were added via addTo(map)
+map.on('layeradd', function (e) {
+    let layer = e.layer;
+    // console.log(layer)
+    // if layer has a feature.toolMetadata, add the layer to the TOC
+    if (layer.hasOwnProperty('feature') && layer.feature.toolMetadata) {
+        console.log(`Adding ${layer._leaflet_id} ${layer.featureType} to the TOC because it was made by the ${layer.feature.toolMetadata.name} tool.`);
+        let featureType = layer.feature.geometry.type;
+        let message = `${layer._leaflet_id} ${featureType}`;
+        console.log(message)
+        addToToc(layer, message);
+    }
+});
+let layerMessageMap = new Map();
 // Function to add layer information to the table of contents (TOC)
 function addToToc(layer, message) {
     let messageId = `message-${layer._leaflet_id}`;
@@ -146,9 +160,14 @@ function renderToolList(tools) {
 
 // Helper to remove messages related to deleted layers
 function removeMessageForLayer(layer) {
-    const messageElement = document.getElementById(`message-${layer._leaflet_id}`);
-    if (messageElement) {
-        messageElement.remove();
+    let messageId = layerMessageMap.get(layer);
+    if (messageId) {
+        let messageElement = document.getElementById(messageId);
+        // console.log(`removing ${messageElement}`);
+        if (messageElement) {
+            messageElement.remove();
+        }
+        layerMessageMap.delete(layer); // Remove association
     }
 }
 
@@ -156,3 +175,4 @@ function removeMessageForLayer(layer) {
 document.addEventListener('DOMContentLoaded', () => {
     updateDataContent();
 });
+

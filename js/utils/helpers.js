@@ -5,9 +5,9 @@ export function logCurrentBounds(map) {
     var southWest = bounds.getSouthWest(); 
     var northEast = bounds.getNorthEast(); 
 
-    console.log("Current visible bounds:");
-    console.log("South West corner: ", southWest);
-    console.log("North East corner: ", northEast);
+    // console.log("Current visible bounds:");
+    // console.log("South West corner: ", southWest);
+    // console.log("North East corner: ", northEast);
     return [southWest.lng, southWest.lat, northEast.lng, northEast.lat];
 
 }

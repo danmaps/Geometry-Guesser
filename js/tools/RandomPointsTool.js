@@ -56,15 +56,24 @@ export class RandomPointsTool extends Tool {
                 }
             });
         } else {
-            console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
-            console.log(map.getBounds())
+            // console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
+            // console.log(map.getBounds())
             var visible_extent = logCurrentBounds(map)
             let randomPoints = turf.randomPoint(pointsCount, {bbox: visible_extent});
             // Add markers to the map
-            randomPoints.features.forEach(function (point) {
+            randomPoints.features.forEach((point) => {
                 var coords = point.geometry.coordinates;
-                L.marker(coords.reverse()).addTo(map);
+                let markerLayer = L.marker(coords.reverse());
+                
+                // Correctly captures this from the surrounding context
+                markerLayer.toolMetadata = {
+                    name: this.name,
+                    parameters: this.parameters
+                };
+                
+                markerLayer.addTo(map);
             });
+            
         }
         
     }
