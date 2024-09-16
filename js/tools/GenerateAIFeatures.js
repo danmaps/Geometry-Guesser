@@ -22,40 +22,50 @@ export class GenerateAIFeatures extends Tool {
         ]);
     }
 
-
     execute() {
-            (async () => {
-            const prompt = document.getElementById('param-Prompt').value;
-        
-            const response = await fetch('http://127.0.0.1:3000/api/ai_geojson', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ prompt: prompt })
-            });
-        
-            const data = await response.json();
-            console.log(data);
-            // Add the generated GeoJSON to the map
+        const prompt = document.getElementById('param-Prompt').value;
+        const toolContent = document.getElementById('toolContent');
+    
+        (async () => {
+            try {
+                // Start the loading animation
+                toolContent.classList.add('pulsate');
+                // Make the API request
+                const response = await fetch('http://127.0.0.1:3000/api/ai_geojson', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
             
-            let layer = L.geoJSON(data);
-            // convert to a geojson layer
-            
-            //add popups for the geojson attributes
-            layer.eachLayer(function (layer) {
-                let attributes =layer.feature.properties;
-                let popupContent = "";
-                popupContent += "<table>";
-                for (let key in attributes) {
-                    // Add the attribute and value to the popup formatted as a html table
-                    popupContent += "<tr><td>" + key + "</td><td>" + attributes[key] + "</td></tr>";
-                    
+                const data = await response.json();
+                console.log(data);
+
+                // Add the generated GeoJSON to the map
+                let layer = L.geoJSON(data);
+
+                // Add popups for the GeoJSON attributes
+                layer.eachLayer(function (layer) {
+                    let attributes = layer.feature.properties;
+                    let popupContent = "<table>";
+                    for (let key in attributes) {
+                        // Add the attribute and value to the popup formatted as a HTML table
+                        popupContent += "<tr><td>" + key + "</td><td>" + attributes[key] + "</td></tr>";
                     }
-                popupContent += "</table>";
-                layer.bindPopup(popupContent);
-            })
-            layer.addTo(map);
+                    popupContent += "</table>";
+                    layer.bindPopup(popupContent);
+                });
+
+                layer.addTo(map);
+            } catch (error) {
+                console.error('Error during API call:', error);
+            } finally {
+                // Stop the loading animation after the async task finishes
+                toolContent.classList.remove('pulsate');
+            }
         })();
     }
+    
+    
 }
