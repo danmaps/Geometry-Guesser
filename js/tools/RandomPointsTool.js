@@ -14,7 +14,7 @@ export class RandomPointsTool extends Tool {
      */
     constructor() {    
         super("Random Points", [
-            new Parameter("Points Count", "Number of random points to generate.", "int", 100),
+            new Parameter("Points Count", "Number of random points to generate.", "int", 10),
             new Parameter("Inside Polygon",  "Generate points inside polygon", "boolean", false),
             new Parameter("Polygon",  "Polygon to add random points within.", "dropdown", "")
         ]);
@@ -48,7 +48,18 @@ export class RandomPointsTool extends Tool {
                             //todo: consider upgrade to turf.pointsWithinPolygon(points, searchWithin);
                             if (turf.booleanPointInPolygon(randomPoint.features[0], polygon)) {
                                 let pointCoords = randomPoint.features[0].geometry.coordinates;
-                                L.marker([pointCoords[1], pointCoords[0]]).addTo(map);
+                                // set attribute "random" to random text using regex
+                                // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+                                randomPoint.features[0].properties.random = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+                                console.log(randomPoint.features[0].properties.random);
+                                
+                                // create geojson layer
+                                let markerLayer = L.geoJSON(randomPoint);
+                                markerLayer.addTo(map);
+
+                                // config popups with attributes
+                                markerLayer.bindPopup(JSON.stringify(randomPoint.features[0].properties, null, 2));
+
                                 pointAdded = true;
                             }
                         }
@@ -56,8 +67,6 @@ export class RandomPointsTool extends Tool {
                 }
             });
         } else {
-            // console.log(`Executing RandomPointsTool with current extent and Points Count: ${pointsCount}`);
-            // console.log(map.getBounds())
             var visible_extent = logCurrentBounds(map)
             let randomPoints = turf.randomPoint(pointsCount, {bbox: visible_extent});
             // Add markers to the map
@@ -65,7 +74,6 @@ export class RandomPointsTool extends Tool {
                 var coords = point.geometry.coordinates;
                 let markerLayer = L.marker(coords.reverse());
                 
-                // Correctly captures this from the surrounding context
                 markerLayer.toolMetadata = {
                     name: this.name,
                     parameters: this.parameters
@@ -99,4 +107,9 @@ export class RandomPointsTool extends Tool {
             });
         }
     }
+    
+}
+// Utility function to generate a random string of 5 characters
+function generateRandomString() {
+    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 }

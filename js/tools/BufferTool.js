@@ -71,6 +71,8 @@ export class BufferTool extends Tool {
 
         // Add the buffered area to the map - this requires converting the Turf GeoJSON back to a Leaflet layer
         const bufferedLayer = L.geoJSON(buffered).addTo(map);
+
+        this.setStatus(0, 'Buffered layer added to map.');
     }
     
     renderUI() {
