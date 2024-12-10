@@ -58,7 +58,7 @@ export class ExportTool extends Tool {
         const formatID = document.getElementById('param-Format');
         if (formatID) {
             // create an array of options
-            const options = ['GeoJSON', 'KML', 'CSV', 'GeoPackage', 'Shapefile'];
+            const options = ['GeoJSON']; // todo: KML, CSV, GeoPackage, Shapefile
 
             // loop through the options and create an option element for each one
             for (let i = 0; i < options.length; i++) {
