@@ -1,4 +1,6 @@
-const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures']; // Keep this up to date
+// import { point } from "turf";
+
+const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool']; // Keep this up to date
 
 // Initialize the map
 export const map = L.map('map').setView([34, -117], 7);
@@ -64,18 +66,20 @@ map.on(L.Draw.Event.CREATED, function (e) {
         layer = e.layer;
     
     drawnItems.addLayer(layer);
+
+
     
     let message = '';
     if (type === 'marker') {
         let latlng = layer.getLatLng();
-        message = `${layer._leaflet_id} ${type}`;
+        message = `${layer._leaflet_id}`;
     } else {
         let vertices = layer.getLatLngs()[0];
         message = `${layer._leaflet_id} ${type} (${vertices.length} vertices)`;
     }
     
     // console.log(message);
-    addToToc(layer, message);
+    addToToc(layer, message, type);
     updateDataContent();
 });
 
@@ -118,9 +122,17 @@ map.on('layeradd', function (e) {
 });
 let layerMessageMap = new Map();
 // Function to add layer information to the table of contents (TOC)
-function addToToc(layer, message) {
+function addToToc(layer, message, type) {
+    // map types to fontawesome icons
+    let iconMap = {
+        marker: 'fa-solid fa-location-pin',
+        rectangle: 'fa-solid fa-draw-polygon',
+        circle: 'fa-solid fa-draw-polygon',
+        polyline: 'fa-solid fa-draw-polygon',
+        polygon: 'fa-solid fa-draw-circle',
+    };
     let messageId = `message-${layer._leaflet_id}`;
-    document.getElementById('tocContent').innerHTML += `<p id="${messageId}">${message}</p>`;
+    document.getElementById('tocContent').innerHTML += `<i class="${iconMap[type]}"></i><p id="${messageId}">${message}</p>`;
     tocLayers.push(layer);
 }
 
