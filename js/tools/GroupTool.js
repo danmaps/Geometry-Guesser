@@ -1,13 +1,13 @@
 import { Tool } from '../models/Tool.js';
 import { Parameter } from '../models/Parameter.js';
-import { tocLayers, map } from '../app.js'; // Adjust the path as necessary
+import { tocLayers, map } from '../app.js'; 
 
-export class ExportTool extends Tool {
+export class GroupTool extends Tool {
     constructor() {
-        super("Export", [
+        super("Group", [
             new Parameter("Layer","layer to group","dropdown",""),
             new Parameter("Distance","distance threshold","float",10),
-            new Parameter("Units","The units for the distance", "dropdown","miles", ["miles","kilometers","degrees"])
+            new Parameter("Units","The units for the distance", "dropdown","miles", ["feet","miles","kilometers","degrees"])    
         ]);
 
         this.description = "Export data";
@@ -39,9 +39,8 @@ export class ExportTool extends Tool {
 
     renderUI() {
         super.renderUI(); 
-        // update the layer dropdown options based on tocLayers
-
         const inputLayer = document.getElementById('param-Layer');
+        const distance = parseFloat(document.getElementById('param-Distance').value);
 
         // Add an option for each layer in the tocLayers array
         for (let i = 0; i < tocLayers.length; i++) {
@@ -50,6 +49,22 @@ export class ExportTool extends Tool {
             option.value = layer._leaflet_id.toString();
             option.text = layer._leaflet_id;
             inputLayer.appendChild(option);
+        }
+        // Populate the "Units" dropdown using the information from the Parameter object
+        const unitsParameter = this.parameters.find(p => p.name === "Units");
+        if (unitsParameter && unitsParameter.options) {
+            const unitsInput = document.getElementById('param-Units');
+            // Populate dropdown with units options from the Parameter object
+            unitsParameter.options.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit;
+                option.text = unit.charAt(0).toUpperCase() + unit.slice(1); // Capitalize the first letter
+                if (unit === unitsParameter.defaultValue) {
+                    option.selected = true; // Set the default value as selected
+                }
+                unitsInput.appendChild(option);
+            });
+            
         }
     }
 

@@ -20,7 +20,7 @@ export class BufferTool extends Tool {
         super("Buffer", [
             new Parameter("Input Layer","The input layer to buffer","dropdown",""),
             new Parameter("Distance", "The distance", "float", 10),
-            new Parameter("Units","The units for the distance", "dropdown","miles", ["miles","kilometers","degrees"])    
+            new Parameter("Units","The units for the distance", "dropdown","miles", ["feet","miles","kilometers","degrees"])    
         ]);
 
         this.description = 'Makes a buffer around the input layer';
