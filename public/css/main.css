@@ -1,34 +1,31 @@
 body, html {
+    background-color: rgb(22, 24, 25) !important;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    color:#ddd;
 }
 
 .container {
-    /* display: flex; */
     height: 100%;
 }
 
 /* Map styling */
 #map {
-    /* flex: 1; Takes the remaining space after the sidebar */
     height: 100vh; 
-    /* width: calc(100% - 800px); Full width minus sidebar (500px) and toc (300px) */
     position: relative;
     margin: 0 auto;
-    /* margin-left: 300px; */
 }
 
 /* Sidebar styling */
 #sidebar {
-    /* width: 500px; */
     position: fixed;
     right: 0; /* Sidebar on the right side */
     top: 0;
     bottom: 0;
-    background-color: #f0f0f0;
+    background-color:rgb(22, 24, 25) !important;
     box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Right-side shadow */
     padding: 10px;
     z-index: 1000; /* Ensure sidebar is above the map */
@@ -37,14 +34,12 @@ body, html {
 
 /* Table of contents pane */
 #toc {
-    /* width: 300px; */
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    background-color: #f8f9fa;
+    background-color: rgb(22, 24, 25) !important;
     padding: 10px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Left-side shadow */
     overflow-y: auto; /* Enables vertical scrolling within the table of contents */
 }
 
@@ -57,8 +52,20 @@ body, html {
 .tool {
     cursor: pointer;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #6f6f6f;
     margin-bottom: 5px;
+}
+
+#toolContent *{
+    margin-bottom: 0.5em;
+}
+
+#toolParameters *{
+    margin-bottom: 0.5em;
+}
+
+.param-label {
+    margin-right: .5em;
 }
 
 /* Expander section */

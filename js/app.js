@@ -1,6 +1,6 @@
 // import { point } from "turf";
 
-const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool']; // Keep this up to date
+const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool', 'AddDataTool']; // Keep this up to date
 
 // Initialize the map
 export const map = L.map('map').setView([34, -117], 7);
@@ -132,7 +132,7 @@ function addToToc(layer, message, type) {
         polygon: 'fa-solid fa-draw-circle',
     };
     let messageId = `message-${layer._leaflet_id}`;
-    document.getElementById('tocContent').innerHTML += `<i class="${iconMap[type]}"></i><p id="${messageId}">${message}</p>`;
+    document.getElementById('tocContent').innerHTML += `<p class="layer-message" id="${messageId}"><i class="${iconMap[type]}"></i> ${message}</p>`;
     tocLayers.push(layer);
 }
 

@@ -10,7 +10,7 @@ export class GroupTool extends Tool {
             new Parameter("Units","The units for the distance", "dropdown","miles", ["feet","miles","kilometers","degrees"])    
         ]);
 
-        this.description = "Export data";
+        this.description = "Group";
     }
     execute() {
         super.execute();

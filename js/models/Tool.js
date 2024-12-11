@@ -53,7 +53,8 @@ export class Tool {
 
         this.parameters.forEach(param => {
             const paramLabel = document.createElement('label');
-            paramLabel.textContent = `${param.name}: `;
+            paramLabel.classList.add('param-label');
+            paramLabel.textContent = `${param.name} `;
             paramLabel.htmlFor = `param-${param.name}`;
 
             let paramInput;
@@ -77,6 +78,10 @@ export class Tool {
                 paramInput.type = "text";
                 paramInput.id = `param-${param.name}`;
                 paramInput.value = param.defaultValue;
+            } else if (param.type === "file") {
+                paramInput = document.createElement('input');
+                paramInput.type = "file";
+                paramInput.id = `param-${param.name}`;
             }
             
             // Common setup for all paramInput elements, including event listener for Enter key
