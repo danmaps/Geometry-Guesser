@@ -58,16 +58,55 @@ export class Tool {
             paramLabel.htmlFor = `param-${param.name}`;
 
             let paramInput;
+            let paramSlider;
 
             if (param.type === "dropdown") {
                 paramInput = document.createElement('select');
                 paramInput.id = `param-${param.name}`;
             } else if (param.type === "int" || param.type === "float") {
+                // Create container for number input and slider
+                const numberContainer = document.createElement('div');
+                numberContainer.classList.add('number-input-container');
+
+                // Create number input
                 paramInput = document.createElement('input');
                 paramInput.type = "number";
                 paramInput.id = `param-${param.name}`;
                 paramInput.value = param.defaultValue;
-                paramInput.step = param.type === "int" ? "1" : "any";
+                paramInput.step = param.type === "int" ? "1" : "0.1";
+                
+                // Add min/max if defined
+                if (param.min !== undefined) paramInput.min = param.min;
+                if (param.max !== undefined) paramInput.max = param.max;
+
+                // Create slider
+                paramSlider = document.createElement('input');
+                paramSlider.type = "range";
+                paramSlider.classList.add('param-slider');
+                paramSlider.value = param.defaultValue;
+                paramSlider.step = param.type === "int" ? "1" : "0.1";
+                
+                // Set min/max for slider
+                paramSlider.min = param.min !== undefined ? param.min : 0;
+                paramSlider.max = param.max !== undefined ? param.max : 100;
+
+                // Link slider and input
+                paramInput.addEventListener('input', (e) => {
+                    paramSlider.value = e.target.value;
+                });
+                
+                paramSlider.addEventListener('input', (e) => {
+                    paramInput.value = e.target.value;
+                });
+
+                numberContainer.appendChild(paramInput);
+                numberContainer.appendChild(paramSlider);
+                
+                // Modify the later append logic to use the container
+                toolContent.appendChild(paramLabel);
+                toolContent.appendChild(numberContainer);
+                toolContent.appendChild(document.createElement('br'));
+                return; // Use return instead of continue
             } else if (param.type === "boolean") {
                 paramInput = document.createElement('input');
                 paramInput.type = "checkbox";
@@ -84,17 +123,16 @@ export class Tool {
                 paramInput.id = `param-${param.name}`;
             }
             
-            // Common setup for all paramInput elements, including event listener for Enter key
+            // Common setup for non-number inputs
             if (paramInput) {
                 toolContent.appendChild(paramLabel);
                 toolContent.appendChild(paramInput);
-                toolContent.appendChild(document.createElement('br')); // Add new line between parameters
+                toolContent.appendChild(document.createElement('br'));
 
-                // Event listener for Enter key to trigger button click
                 paramInput.addEventListener('keydown', function(event) {
                     if (event.key === "Enter") {
-                        event.preventDefault(); // Prevent the default action (form submission)
-                        executeButton.click(); // Trigger the click event on the execute button
+                        event.preventDefault();
+                        executeButton.click();
                     }
                 });
             }

@@ -1,35 +1,50 @@
+:root {
+    --primary-bg: #1a1d21;
+    --secondary-bg: #22262a;
+    --accent-color: #3498db;
+    --text-primary: #e1e1e1;
+    --text-secondary: #a1a1a1;
+    --border-color: #2d3236;
+    --hover-bg: #2a2f34;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
 body, html {
-    background-color: rgb(22, 24, 25) !important;
+    background-color: var(--primary-bg) !important;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    color:#ddd;
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-.container {
-    height: 100%;
+.container-fluid {
+    height: 100vh;
 }
 
 /* Map styling */
 #map {
-    height: 100vh; 
+    height: 100vh;
     position: relative;
     margin: 0 auto;
+    z-index: 1;
 }
 
 /* Sidebar styling */
 #sidebar {
     position: fixed;
-    right: 0; /* Sidebar on the right side */
+    right: 0;
     top: 0;
     bottom: 0;
-    background-color:rgb(22, 24, 25) !important;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.1); /* Right-side shadow */
-    padding: 10px;
-    z-index: 1000; /* Ensure sidebar is above the map */
-    overflow-y: auto; /* Enables vertical scrolling within the sidebar */
+    background-color: var(--secondary-bg) !important;
+    box-shadow: -2px 0 15px var(--shadow-color);
+    padding: 20px;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    border-left: 1px solid var(--border-color);
 }
 
 /* Table of contents pane */
@@ -38,109 +53,174 @@ body, html {
     left: 0;
     top: 0;
     bottom: 0;
-    background-color: rgb(22, 24, 25) !important;
-    padding: 10px;
-    overflow-y: auto; /* Enables vertical scrolling within the table of contents */
-}
-
-/* Hidden class */
-.hidden {
-    display: none;
+    background-color: var(--secondary-bg) !important;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 /* Tool styling */
 .tool {
     cursor: pointer;
-    padding: 10px;
-    border: 1px solid #6f6f6f;
-    margin-bottom: 5px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background-color: var(--secondary-bg);
 }
 
-#toolContent *{
-    margin-bottom: 0.5em;
+.tool:hover {
+    background-color: var(--hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
-#toolParameters *{
-    margin-bottom: 0.5em;
+#toolContent, #toolParameters {
+    margin-bottom: 1em;
+}
+
+#toolContent *, #toolParameters * {
+    margin-bottom: 0.8em;
 }
 
 .param-label {
-    margin-right: .5em;
+    margin-right: 1em;
+    color: var(--text-secondary);
+    font-size: 0.9em;
 }
 
-/* Expander section */
-.expander {
-    margin-top: 20px;
+/* Back button styling */
+#backButton {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* Data content */
+#backButton:hover {
+    background-color: var(--hover-bg);
+    transform: translateX(-2px);
+}
+
+/* Status message styling */
+#statusMessage {
+    margin-top: 1em;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+}
+
+/* Input styling */
+input[type="number"], input[type="text"], select {
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+input[type="number"]:focus, input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Slider styling */
+.param-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    outline: none;
+    margin: 10px 0;
+}
+
+.param-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.param-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Data content styling */
 #DataContent {
-    display: block;
-    flex: 1; /* Takes the remaining space */
-    height: 100%; 
-    position: relative;
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 13px;
+    line-height: 1.4;
+    border: 1px solid var(--border-color);
 }
 
-pre[class*=language-] {
-    line-height: 1;
-    font-size: 12px;
-    font-family: 'Courier New', Courier, monospace;
+/* Popup table styling */
+.popupTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
 }
 
-/* Responsive layout for smaller screens */
+.popupTable td {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    background-color: var(--secondary-bg);
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
-    .container {
-        display: block; /* Stack content vertically */
+    .container-fluid {
+        display: flex;
+        flex-direction: column;
     }
 
-    /* Full width map for mobile */
-    .map {
-        width: 100%;
-        height: 60vh; /* Reduced height to make room for other panes */
-        margin-left: auto;
-    }
-
-    /* Table of contents and sidebar will stack and take full width */
-    #toc, #sidebar {
-        position: relative;
-        width: 100%;
-        height: auto; /* Auto height */
-        box-shadow: none; /* Remove shadows on mobile */
-    }
-
-    #sidebar {
-        order: 2; /* Sidebar appears second */
+    #map {
+        height: 50vh;
+        order: 1;
     }
 
     #toc {
-        order: 1; /* Table of contents appears first */
+        position: relative;
+        width: 100%;
+        height: auto;
+        order: 2;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        order: 3;
+        border-left: none;
     }
 }
 
-/* pulsate animation */
-@keyframes pulsation {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.25;
-    }
-    100% {
-        opacity: 1;
-    }
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* pulsate class */
-.pulsate {
-    animation: pulsation 500ms ease-in-out infinite;
-}
-
-/* nice format for popuptable */
-.popupTable td {
-    padding: 5px;
-    border: 1px solid #ddd;
-    /* text-align: center; */
-    vertical-align: middle;
-    font-size: 12px;
-    /* font-family: 'Courier New', Courier, monospace; */
+.tool, #toolContent, #toolParameters {
+    animation: fadeIn 0.3s ease-out;
 }
