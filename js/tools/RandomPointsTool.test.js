@@ -1,5 +1,6 @@
-import { RandomPointsTool } from './RandomPointsTool.js';
-import { L, turf } from 'leaflet';
+const { RandomPointsTool } = require('./RandomPointsTool');
+const L = require('leaflet');
+const turf = require('@turf/turf');
 
 jest.mock('leaflet');
 

@@ -1,8 +1,7 @@
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { tocLayers, map } from '../app.js'; 
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
 
-export class GroupTool extends Tool {
+class GroupTool extends Tool {
     constructor() {
         super("Group", [
             new Parameter("Layer","layer to group","dropdown",""),
@@ -70,4 +69,6 @@ export class GroupTool extends Tool {
 
 
 }
+
+module.exports = { GroupTool };
 

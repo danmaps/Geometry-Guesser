@@ -1,8 +1,6 @@
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { drawnItems, map } from '../app.js';
-import { logCurrentBounds } from '../utils/helpers.js';
-
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
+const { logCurrentBounds } = require('../utils/helpers');
 
 /**
  * Represents a tool for adding random points within selected polygon.
@@ -113,3 +111,5 @@ export class RandomPointsTool extends Tool {
 function generateRandomString() {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 }
+
+module.exports = { RandomPointsTool };

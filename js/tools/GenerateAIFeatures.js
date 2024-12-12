@@ -1,8 +1,5 @@
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { drawnItems, map } from '../app.js'; // Adjust the path as necessary
-
-
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
 
 /**
  * A tool tool for generating AI features.
@@ -71,3 +68,5 @@ export class GenerateAIFeatures extends Tool {
     
     
 }
+
+module.exports = { GenerateAIFeatures };

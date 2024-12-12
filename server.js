@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 const cors = require('cors');
 const path = require('path');
 const app = express();

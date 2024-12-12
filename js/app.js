@@ -1,29 +1,26 @@
-// import { point } from "turf";
+// const turf = require('@turf/turf');
 
 const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool', 'AddDataTool']; // Keep this up to date
 
 // Initialize the map
-export const map = L.map('map').setView([34, -117], 7);
+const map = L.map('map').setView([34, -117], 7);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 18,
 }).addTo(map);
 
-export const drawnItems = new L.FeatureGroup();
+const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
-
 
 document.getElementById('backButton').addEventListener('click', function() {
     document.getElementById('toolSelection').style.display = 'block';
     document.getElementById('toolDetails').classList.add('hidden');
     const statusMessage = document.getElementById('statusMessageText');
     statusMessage.textContent = "";
-    // hide div div id="statusMessage"
     document.getElementById('statusMessage').style.display = 'none';
 });
 
-
 // Set up an array to keep track of layers added to the TOC
-export const tocLayers = [];
+const tocLayers = [];
 const loadedTools = {}; // Object to store instantiated tools
 
 let drawControl = new L.Control.Draw({
@@ -38,7 +35,6 @@ map.addControl(drawControl);
 
 // Function to get a tool instance by name
 function getToolByName(name) {
-    // console.log("Loaded tools:", loadedTools);
     return loadedTools[name] || null;
 }
 
@@ -48,19 +44,17 @@ function updateDataContent() {
     let geoJsonData = JSON.stringify(drawnItems.toGeoJSON(), null, 2);
     content.innerHTML = `<code class="language-json">${Prism.highlight(geoJsonData, Prism.languages.json, 'json')}</code>`;
 
-    // If there's a div with id toolName showing, run the associated tool's renderUI method
     const toolElement = document.getElementById('toolName');
     if (toolElement) {
         let toolname = toolElement.getAttribute('tool');
         let tool = getToolByName(toolname);
-        // console.log(`trying to render UI for ${toolname}`);
         if (tool) {
             tool.renderUI();
         }
     }
 }
 
-// Event listener for when a new feature is drawn
+// Event listeners remain the same...
 map.on(L.Draw.Event.CREATED, function (e) {
     let type = e.layerType,
         layer = e.layer;
@@ -83,7 +77,6 @@ map.on(L.Draw.Event.CREATED, function (e) {
     updateDataContent();
 });
 
-// Event listener for when features are edited
 map.on('draw:edited', function (e) {
     var layers = e.layers;
     layers.eachLayer(function (layer) {
@@ -95,7 +88,6 @@ map.on('draw:edited', function (e) {
     updateDataContent();
 });
 
-// Event listener for when features are deleted
 map.on('draw:deleted', function (e) {
     var layers = e.layers;
     layers.eachLayer(function (layer) {
@@ -105,9 +97,6 @@ map.on('draw:deleted', function (e) {
     updateDataContent();
 });
 
-
-// Event listener for when a new feature is added any other way
-// inspect the map for any features that were added via addTo(map)
 map.on('layeradd', function (e) {
     let layer = e.layer;
     // console.log(layer)
@@ -121,7 +110,7 @@ map.on('layeradd', function (e) {
     }
 });
 let layerMessageMap = new Map();
-// Function to add layer information to the table of contents (TOC)
+
 function addToToc(layer, message, type) {
     // map types to fontawesome icons
     let iconMap = {
@@ -138,18 +127,18 @@ function addToToc(layer, message, type) {
 
 // Load tools dynamically and store them in the loadedTools object
 document.addEventListener('DOMContentLoaded', () => {
-    Promise.all(toolNames.map(name => 
-        import(`./tools/${name}.js`).then(module => {
-            const ToolClass = module[name]; // Assuming the tool class is exported with the same name
-            const toolInstance = new ToolClass();
-            loadedTools[name] = toolInstance;
-        })
-    )).then(() => {
-        renderToolList(Object.values(loadedTools));
+    // Load tools synchronously since we're using require
+    toolNames.forEach(name => {
+        try {
+            const ToolClass = require(`./tools/${name}`)[name];
+            loadedTools[name] = new ToolClass();
+        } catch (error) {
+            console.error(`Failed to load tool: ${name}`, error);
+        }
     });
+    renderToolList(Object.values(loadedTools));
 });
 
-// Function to render tool list in the UI
 function renderToolList(tools) {
     const toolContainer = document.getElementById('toolSelection');
     tools.forEach(tool => {
@@ -169,7 +158,6 @@ function renderToolList(tools) {
     });
 }
 
-// Helper to remove messages related to deleted layers
 function removeMessageForLayer(layer) {
     let messageId = layerMessageMap.get(layer);
     if (messageId) {
@@ -182,8 +170,14 @@ function removeMessageForLayer(layer) {
     }
 }
 
-// Call updateDataContent after ensuring Prism is loaded
 document.addEventListener('DOMContentLoaded', () => {
     updateDataContent();
 });
+
+// Export necessary variables and functions
+module.exports = {
+    map,
+    drawnItems,
+    tocLayers
+};
 

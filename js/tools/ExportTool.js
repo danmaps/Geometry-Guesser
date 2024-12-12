@@ -1,8 +1,7 @@
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { tocLayers, map } from '../app.js'; // Adjust the path as necessary
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
 
-export class ExportTool extends Tool {
+class ExportTool extends Tool {
     constructor() {
         super("Export", [
             new Parameter("Layer","layer to export","dropdown",""),
@@ -73,4 +72,6 @@ export class ExportTool extends Tool {
 
 
 }
+
+module.exports = { ExportTool };
 

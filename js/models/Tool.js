@@ -190,3 +190,5 @@ export class Tool {
         };
     }
 }
+
+module.exports = { Tool };

@@ -1,12 +1,10 @@
-
 // https://stackoverflow.com/a/65320730
 // https://jsfiddle.net/rp1320mf/
 // https://turfjs.org/docs/#buffer
 
-
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { drawnItems, tocLayers ,map } from '../app.js'; // Adjust the path as necessary
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
+const { drawnItems, tocLayers, map } = require('../app');
 
 /**
  * Represents a tool for adding a buffer to the selected layer.
@@ -112,3 +110,5 @@ export class BufferTool extends Tool {
         }
     }
 }
+
+module.exports = { BufferTool };

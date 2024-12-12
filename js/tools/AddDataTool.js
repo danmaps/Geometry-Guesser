@@ -1,9 +1,8 @@
-import { Tool } from '../models/Tool.js';
-import { Parameter } from '../models/Parameter.js';
-import { tocLayers, map } from '../app.js';
-import * as XLSX from 'https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs';
+const { Tool } = require('../models/Tool');
+const { Parameter } = require('../models/Parameter');
+const XLSX = require('xlsx');
 
-export class AddDataTool extends Tool {
+class AddDataTool extends Tool {
     constructor() {
         super("Add Data", [
             new Parameter("Input", "data to add", "file", ""),
@@ -142,4 +141,6 @@ export class AddDataTool extends Tool {
         });
     }
 }
+
+module.exports = { AddDataTool };
 
