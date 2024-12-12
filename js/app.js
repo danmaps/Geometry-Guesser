@@ -1,3 +1,4 @@
+const L = require('leaflet');
 // const turf = require('@turf/turf');
 
 const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool', 'AddDataTool']; // Keep this up to date
