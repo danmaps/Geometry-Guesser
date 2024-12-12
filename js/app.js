@@ -174,10 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDataContent();
 });
 
-// Export necessary variables and functions
-module.exports = {
-    map,
-    drawnItems,
-    tocLayers
-};
+// Export these before any requires to avoid circular dependencies
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        map,
+        drawnItems,
+        tocLayers
+    };
+}
 

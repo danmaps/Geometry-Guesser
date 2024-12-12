@@ -6,7 +6,7 @@ const { logCurrentBounds } = require('../utils/helpers');
  * Represents a tool for adding random points within selected polygon.
  * @extends Tool
  */
-export class RandomPointsTool extends Tool {
+class RandomPointsTool extends Tool {
     /**
      * Constructs an instance of RandomPointsTool.
      */
@@ -112,4 +112,8 @@ function generateRandomString() {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 }
 
-module.exports = { RandomPointsTool };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { RandomPointsTool };
+} else {
+    window.RandomPointsTool = RandomPointsTool;
+}

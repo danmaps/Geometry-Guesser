@@ -10,7 +10,7 @@ const { drawnItems, tocLayers, map } = require('../app');
  * Represents a tool for adding a buffer to the selected layer.
  * @extends Tool
  */
-export class BufferTool extends Tool {
+class BufferTool extends Tool {
     /**
      * Constructs an instance of BufferTool.
      */
@@ -111,4 +111,8 @@ export class BufferTool extends Tool {
     }
 }
 
-module.exports = { BufferTool };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { BufferTool };
+} else {
+    window.BufferTool = BufferTool;
+}

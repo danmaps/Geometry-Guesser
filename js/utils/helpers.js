@@ -6,5 +6,9 @@ function logCurrentBounds(map) {
     return [southWest.lng, southWest.lat, northEast.lng, northEast.lat];
 }
 
-module.exports = { logCurrentBounds };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { logCurrentBounds };
+} else {
+    window.logCurrentBounds = logCurrentBounds;
+}
 

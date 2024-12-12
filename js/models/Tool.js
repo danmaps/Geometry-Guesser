@@ -1,4 +1,4 @@
-export class Tool {
+class Tool {
     constructor(name, parameters = [], description, map) {
         this.name = name;
         this.parameters = parameters;
@@ -191,4 +191,8 @@ export class Tool {
     }
 }
 
-module.exports = { Tool };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { Tool };
+} else {
+    window.Tool = Tool;
+}

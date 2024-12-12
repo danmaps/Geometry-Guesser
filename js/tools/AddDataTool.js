@@ -1,6 +1,12 @@
 const { Tool } = require('../models/Tool');
 const { Parameter } = require('../models/Parameter');
-const XLSX = require('xlsx');
+const { map, tocLayers } = require('../app');
+let XLSX;
+if (typeof window !== 'undefined' && window.XLSX) {
+    XLSX = window.XLSX;  // Browser environment
+} else {
+    XLSX = require('xlsx');  // Node environment
+}
 
 class AddDataTool extends Tool {
     constructor() {
@@ -142,5 +148,9 @@ class AddDataTool extends Tool {
     }
 }
 
-module.exports = { AddDataTool };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { AddDataTool };
+} else {
+    window.AddDataTool = AddDataTool;
+}
 

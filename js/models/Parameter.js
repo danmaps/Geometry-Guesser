@@ -10,4 +10,8 @@ class Parameter {
     }
 }
 
-module.exports = { Parameter };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { Parameter };
+} else {
+    window.Parameter = Parameter;
+}

@@ -11,7 +11,7 @@ const { Parameter } = require('../models/Parameter');
  * 
  */
 
-export class GenerateAIFeatures extends Tool {
+class GenerateAIFeatures extends Tool {
 
     constructor() {    
         super("Generate AI Features", [
@@ -69,4 +69,8 @@ export class GenerateAIFeatures extends Tool {
     
 }
 
-module.exports = { GenerateAIFeatures };
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { GenerateAIFeatures };
+} else {
+    window.GenerateAIFeatures = GenerateAIFeatures;
+}

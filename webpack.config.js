@@ -3,6 +3,12 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: './js/app.js',
+  externals: {
+    'xlsx': 'XLSX'
+  },
+  experiments: {
+    topLevelAwait: true
+  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public/dist'),
