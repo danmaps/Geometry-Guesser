@@ -224,3 +224,20 @@ input[type="number"]:focus, input[type="text"]:focus, select:focus {
 .tool, #toolContent, #toolParameters {
     animation: fadeIn 0.3s ease-out;
 }
+
+/* Hidden class and visibility control */
+.hidden {
+    display: none !important;
+}
+
+#toolSelection, #toolDetails {
+    display: none;
+}
+
+#toolSelection:not(.hidden) {
+    display: block;
+}
+
+#toolDetails:not(.hidden) {
+    display: block;
+}
