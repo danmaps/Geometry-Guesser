@@ -1,5 +1,4 @@
-const L = require('leaflet');
-// const turf = require('@turf/turf');
+/* global L, turf */  // Tell ESLint that L and turf are global variables
 
 const toolNames = ['RandomPointsTool', 'BufferTool', 'ExportTool', 'GenerateAIFeatures', 'GroupTool', 'AddDataTool']; // Keep this up to date
 
