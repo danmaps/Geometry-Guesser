@@ -46,6 +46,7 @@ jobs:
           name: headless-demo-geojson
           path: artifacts/headless-demo.geojson
           if-no-files-found: error
+          retention-days: 7
 
       - name: Upload smoke test logs on failure
         if: failure()
@@ -54,3 +55,4 @@ jobs:
           name: headless-smoke-logs
           path: /tmp/headless-demo.log
           if-no-files-found: warn
+          retention-days: 7
