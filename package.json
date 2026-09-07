@@ -22,7 +22,10 @@
     "docs:update": "node scripts/generate_tool_docs.js"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -31,7 +34,7 @@
     "@turf/turf": "^6.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.22.2",
+    "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
@@ -40,7 +43,9 @@
   },
   "overrides": {
     "brace-expansion": "^1.1.16",
-    "fast-uri": "^3.1.5"
+    "browserslist": "^4.28.7",
+    "fast-uri": "^3.1.6",
+    "qs": "^6.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.5",
